@@ -16,6 +16,7 @@
 		E38BF9E028DE0399000DB992 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E38BF9DE28DE0399000DB992 /* LaunchScreen.storyboard */; };
 		E38BF9E928DE03A2000DB992 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E38BF9E828DE03A2000DB992 /* MapKit.framework */; };
 		E38EB4BA28DF6EFB0066ACEE /* Pangolin-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E38EB4B928DF6EFB0066ACEE /* Pangolin-Regular.ttf */; };
+		E3935C7628E8ABB00018FE0F /* Keyy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3935C7528E8ABB00018FE0F /* Keyy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		E38BF9E128DE0399000DB992 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E38BF9E828DE03A2000DB992 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E38EB4B928DF6EFB0066ACEE /* Pangolin-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pangolin-Regular.ttf"; path = "../../../../fonts/Pangolin-Regular.ttf"; sourceTree = "<group>"; };
+		E3935C7528E8ABB00018FE0F /* Keyy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 		E38BF9D228DE0395000DB992 /* Oasis */ = {
 			isa = PBXGroup;
 			children = (
+				E3935C7428E8AB970018FE0F /* Model */,
 				E327FFD828E04FA100B1E72C /* Supporting files */,
 				E38EB4B828DF6EE90066ACEE /* fonts */,
 				E38BF9D328DE0395000DB992 /* AppDelegate.swift */,
@@ -99,6 +102,14 @@
 				E38EB4B928DF6EFB0066ACEE /* Pangolin-Regular.ttf */,
 			);
 			path = fonts;
+			sourceTree = "<group>";
+		};
+		E3935C7428E8AB970018FE0F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E3935C7528E8ABB00018FE0F /* Keyy.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,6 +187,7 @@
 				E38BF9D428DE0395000DB992 /* AppDelegate.swift in Sources */,
 				E327FFDA28E04FB300B1E72C /* ProgressHUD.swift in Sources */,
 				E38BF9D628DE0395000DB992 /* SceneDelegate.swift in Sources */,
+				E3935C7628E8ABB00018FE0F /* Keyy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +341,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				NEW_SETTING = "";
+				"OTHER_SWIFT_FLAGS[arch=*]" = "-Xfrontend -enable-experimental-concurrency";
 				PRODUCT_BUNDLE_IDENTIFIER = Lareina.Oasis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -348,6 +362,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				NEW_SETTING = "";
+				"OTHER_SWIFT_FLAGS[arch=*]" = "-Xfrontend -enable-experimental-concurrency";
 				PRODUCT_BUNDLE_IDENTIFIER = Lareina.Oasis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

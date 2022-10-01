@@ -8,14 +8,13 @@
 import UIKit
 import MapKit
 import CoreLocation
+import _Concurrency
 
 extension CLPlacemark {
     var stringValue : String {
         get {
-            let lines = (self.addressDictionary?["FormattedAddressLines"] as? [String])!
-            let str = lines.joined(separator: ", ")
-            print(str)
-            return str
+            var address = "\(self.subThoroughfare ?? "") \(self.thoroughfare ?? ""), \(self.locality ?? "") \(self.subLocality ?? "") \(self.administrativeArea ?? ""), \(self.postalCode ?? "")"
+            return address
         }
     }
 }
@@ -24,7 +23,6 @@ extension UITextField {
     func isValid(with word: String) -> Bool {
         guard let text = self.text, !text.isEmpty
         else {
-            print("Please fill the field.")
             return false
         }
         return true
@@ -33,7 +31,6 @@ extension UITextField {
 
 // reverse the geocode location and gives you a CLPlacemark, containing all the informations needed to extract full postal address
 extension CLLocation {
-
     func lookUpPlaceMark(_ handler: @escaping (CLPlacemark?) -> Void) {
         let geocoder = CLGeocoder()
         // Look up the location and pass it to the completion handler
@@ -55,8 +52,7 @@ extension CLLocation {
 }
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
-
-    @IBOutlet weak var addressInput: UITextField!
+    @IBOutlet weak var initialTextField: UITextField!
     @IBOutlet weak var startLocInput: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var aView: UIView!
@@ -64,13 +60,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var locatemeButton: UIButton!
+    
     let maxTextFields = 10
-    let buttonOffset : CGFloat = 80.0
-    let littleOffset : CGFloat = 16.0
-    var textFields: [Int] = []
-    let textFieldSize = CGSize(width: 326, height: 50)
+    let textFieldSize = CGSize(width: 340, height: 50)
     let userInputFont : UIFont = UIFont(name: "Pangolin-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18.0)
+    let buttonSize : CGFloat = 55.0
+    let buttonOffset : CGFloat = 80.0
+    let offsetY : CGFloat = 16.0
+    let offsetYFromAbove : CGFloat = 50.0
+    let offsetX : CGFloat = 25.0
+    let textColor = UIColor(red: 66/255, green: 66/255, blue: 66/255, alpha: 1)
     let centeredParagraphStyle = NSMutableParagraphStyle()
+    
+    var textFields: [Int] = []
     
     func setUpButton(button: UIButton){
         button.contentVerticalAlignment = .fill
@@ -81,17 +83,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func setUpThings(){
         centeredParagraphStyle.alignment = .center
         
-        self.setUpTextField(textField: addressInput, n: 0, currFont: userInputFont, msg: "Search for a location!")
-        textFields.append(0)
-        setUpATextField(textField: addressInput)
+        self.setUpTextField(textField: initialTextField, n: 1, currFont: userInputFont, msg: "Search for a location!")
+        textFields.append(1)
+        setUpATextField(textField: initialTextField)
         
-        self.setUpTextField(textField: startLocInput, n: 11, currFont: userInputFont, msg: "📍Current Location")
+        self.setUpTextField(textField: startLocInput, n: 12, currFont: userInputFont, msg: "📍Current Location")
         
         self.setUpButton(button: plusButton)
-        plusButton.frame.origin = CGPoint(x: plusButton.frame.origin.x, y: buttonOffset)
+        plusButton.frame.origin = CGPoint(x: plusButton.frame.origin.x, y: buttonOffset + offsetYFromAbove)
         
         self.setUpButton(button: minusButton)
-        minusButton.frame.origin = CGPoint(x: minusButton.frame.origin.x, y: buttonOffset)
+        minusButton.frame.origin = CGPoint(x: minusButton.frame.origin.x, y: buttonOffset + offsetYFromAbove)
         
         self.setUpButton(button: locatemeButton)
         self.setUpButton(button: searchButton)
@@ -104,10 +106,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func setUpTextField(textField : UITextField, n : Int, currFont: UIFont, msg: String){
         textField.backgroundColor = UIColor.white
-        textField.textColor = UIColor(red: 66/255, green: 66/255, blue: 66/255, alpha: 1)
+        textField.textColor = textColor
         textField.layer.cornerRadius = 10
         textField.textAlignment = .center
-        textField.textColor = UIColor.darkGray
         textField.clipsToBounds = true
         textField.tag = n
         textField.font = currFont
@@ -127,18 +128,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let toRemove : UITextField = self.aView.viewWithTag(lastFieldTag)! as! UITextField
             toRemove.removeFromSuperview()
             // adjust plus and minus button
-            let y = plusButton.frame.origin.y - littleOffset - textFieldSize.height
-            plusButton.frame.origin = CGPoint(x: plusButton.frame.origin.x, y: y)
-            minusButton.frame.origin = CGPoint(x: minusButton.frame.origin.x, y: y)
+            let y = plusButton.frame.origin.y - offsetY - textFieldSize.height
+            plusButton.frame.origin.y = y
+            minusButton.frame.origin.y = y
         }
         else {
-            /*
-            let alert = UIAlertController(title: "🧐", message: "You cannot delete anymore", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK...", style: .default, handler: { UIAlertAction in
-                print("ok")
-            }))
-            present(alert, animated: true, completion: nil)
-             */
             ProgressHUD.showError("🧐 You cannot delete anymore", image: nil, interaction: false)
         }
          
@@ -147,17 +141,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func addInput(_ sender: Any) {
         if textFields.count < maxTextFields {
             let n = textFields.count
-            let y = CGFloat(n) * (textFieldSize.height + littleOffset) + littleOffset
-            let textField = UITextField(frame: CGRect(origin: CGPoint(x: littleOffset, y: y), size: textFieldSize))
-            self.setUpTextField(textField: textField, n: n, currFont: userInputFont, msg: "Search for another location!")
+            let y = CGFloat(n) * (textFieldSize.height + offsetY) + offsetYFromAbove
+            let textField = UITextField(frame: CGRect(origin: CGPoint(x: offsetX, y: y), size: textFieldSize))
+            self.setUpTextField(textField: textField, n: n+1, currFont: userInputFont, msg: "Search for another location!")
             setUpATextField(textField: textField)
             self.aView.addSubview(textField)
-            textFields.append(n)
+            textFields.append(n+1)
             
             // adjust plus button location
-            plusButton.frame.origin = CGPoint(x: plusButton.frame.origin.x, y: y + buttonOffset)
-            minusButton.frame.origin = CGPoint(x: minusButton.frame.origin.x, y: y + buttonOffset)
-            
+            plusButton.frame.origin.y = y + buttonOffset
+            minusButton.frame.origin.y = y + buttonOffset
         }
         else {
             ProgressHUD.showFailed("😱 It is enough for now...")
@@ -198,35 +191,119 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     
     // TODO: enter a new storyboard when tap on search
-    @IBAction func enterSearch(_ sender: Any) {
-    }
     
     // TODO: change view to scroll-able format
     
     // TODO: get user's start location
     
+    @IBAction func search(_ sender: Any) {
+        Task{
+            let within : Double = 500
+            var searchTexts = Set<String>()
+            for tag in textFields{
+                let thisTextField : UITextField = self.view.viewWithTag(tag)! as! UITextField
+                if (self.textFieldDidChange(thisTextField) != 0){
+                    let currText = thisTextField.text!
+                    if !searchTexts.contains(currText.lowercased()){
+                        searchTexts.insert(currText.lowercased())
+                    }
+                    else {
+                        ProgressHUD.showError("Please input different places 🥹")
+                        return
+                    }
+                }
+            }
+            try await self.startSearch(searchTexts: Array(searchTexts), within: within)
+        }
+    }
     
-    func searchForLocation(to name: String, n: Int){
+    func startSearch(searchTexts: [String], within: Double) async throws {
+        try await withThrowingTaskGroup(of: [MKPlacemark].self){ group in
+            guard let startLocation = locationManager.location
+            else {
+                ProgressHUD.showError("Please choose a valid start location!")
+                return
+            }
+            for text in searchTexts {
+                group.addTask {
+                    try await self.searchForLocation(to: text, startFrom: startLocation) }
+            }
+            var toSearch = [[MKPlacemark]]()  // list of results from each textfield
+            for try await searchResult in group {
+                toSearch.append(searchResult)
+            }
+            var finalSearchResult : [Keyy:[Int:[Int]]] = [:]  // dict of results from each textfield
+            let n = toSearch.count
+            var maxCluster = 0
+            var resultKeyy : [Keyy] = [Keyy]()
+            for i in 0...n-2{
+                let resultsI = toSearch[i]
+                for j in i+1...n-1{
+                    let resultsJ = toSearch[j]
+                    for (iResultIdx, iPlace) in resultsI.enumerated() {
+                        if let iCoord = iPlace.location{
+                            for (jResultIdx,jPlace) in resultsJ.enumerated() {
+                                if let jCoord = jPlace.location{
+                                    let distanceInMeters = jCoord.distance(from: iCoord)
+                                    if distanceInMeters <= within {
+                                        let iKeyy = Keyy(queryIndex: i, resultIndex: iResultIdx)
+                                        let jKeyy = Keyy(queryIndex: j, resultIndex: jResultIdx)
+                                        (finalSearchResult[iKeyy, default: [:]][j, default: []]).append(jResultIdx)
+                                        //(finalSearchResult[jKeyy, default: [:]][i, default: []]).append(iResultIdx)
+                                        let iCurrSize = finalSearchResult[iKeyy, default: [:]].count
+                                        let jCurrSize = finalSearchResult[jKeyy, default: [:]].count
+                                        if iCurrSize > maxCluster{
+                                            maxCluster = iCurrSize
+                                            resultKeyy = [iKeyy]
+                                        }
+                                        else if iCurrSize == maxCluster{
+                                            resultKeyy.append(iKeyy)
+                                        }
+                                        /*
+                                        if jCurrSize > maxCluster{
+                                            maxCluster = jCurrSize
+                                            resultKeyy = [jKeyy]
+                                        }
+                                        else if jCurrSize == maxCluster{
+                                            resultKeyy.append(jKeyy)
+                                        }
+                                         */
+                                    }
+                                }
+                                else{ ProgressHUD.showFailed("Search failed for \(j+1)") }
+                            }
+                        }
+                        else{ ProgressHUD.showFailed("Search failed for \(i+1)") }
+                    }
+                }
+            }
+            if maxCluster < n-1{
+                print("We cannot satisfy all requirements, but checkout...")
+            }
+            for keyy in resultKeyy{
+                print(toSearch[keyy.queryIndex][keyy.resultIndex])
+                let neighborDict = finalSearchResult[keyy, default: [:]]
+                for (qIdx,rIdxLs) in neighborDict{
+                    for rIdx in rIdxLs{
+                        print(toSearch[qIdx][rIdx])
+                    }
+                }
+                print()
+            }
+        }
+    }
+    
+    // return a list of MKPlacemark
+    func searchForLocation(to name: String, startFrom : CLLocation) async throws -> [MKPlacemark] {
         let searchRequest = MKLocalSearch.Request()
         searchRequest.naturalLanguageQuery = name
         let search = MKLocalSearch(request: searchRequest)
-        search.start { response, error in
-            guard let response = response
-            else {
-                print("Error: \(error?.localizedDescription ?? "Unknown error").")
-                return
-            }
-            
-            let results = response.mapItems
-            print("🔖The tag is \(n), we have \(results.count) results...")
-            
-            for item in results {
-                print(item.placemark.title ?? "No location!")
-            }
-            //return response.mapItems.map({$0.placemark.location})
-            
-            self.updateLocationOnMap(to: results[0].placemark.location!, with: results[0].placemark.stringValue)
-        }
+        var result = [MKPlacemark]()
+        let response = try await search.start()
+        let places = response.mapItems.map({$0.placemark})
+        //sorted(by: { location.distance(from: $0) < location.distance(from: $1)
+        result.append(contentsOf: places)
+        return result
     }
     
     func updatePlaceMark(to address: String) {
@@ -241,14 +318,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        guard addressInput.isValid(with: "Singapore")
+    @objc func textFieldDidChange(_ textField: UITextField) -> Int {
+        guard initialTextField.isValid(with: "Singapore")
         else {
              print("Please input a valid address ❌")
-             return
+             return 0
             }
-        print("✅")
-        searchForLocation(to: textField.text!, n: textField.tag)
+        return 1
     }
     
     func locationManager(_ manager: CLLocationManager,
