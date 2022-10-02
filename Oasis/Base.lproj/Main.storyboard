@@ -62,10 +62,10 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="tintColor" red="0.62745098039215685" green="0.60784313725490191" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="trash.fill" catalog="system" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" image="trash.fill" catalog="system"/>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.89851707219999999" green="0.88911879059999999" blue="0.94118386509999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="backgroundColor" red="0.89803921568627454" green="0.8901960784313725" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="15"/>
@@ -86,7 +86,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZl-LD-0wM">
-                                <rect key="frame" x="16" y="295" width="55" height="55"/>
+                                <rect key="frame" x="16" y="270" width="55" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <rect key="contentStretch" x="0.20000000000000001" y="0.20000000000000001" width="1" height="1"/>
@@ -107,7 +107,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4yy-ki-rir">
-                                <rect key="frame" x="319" y="295" width="55" height="55"/>
+                                <rect key="frame" x="319" y="270" width="55" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" red="0.62796306609999997" green="0.60702723260000002" blue="0.92944794890000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -118,6 +118,16 @@
                                     <action selector="search:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3Sk-uZ-P8L"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="UKf-X4-85S">
+                                <rect key="frame" x="0.0" y="350" width="390" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="200m"/>
+                                    <segment title="500m"/>
+                                    <segment title="700m"/>
+                                    <segment title="1km"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -131,6 +141,7 @@
                     <connections>
                         <outlet property="aView" destination="HiY-zy-NMM" id="bBp-zd-eYA"/>
                         <outlet property="deleteButton1" destination="0kD-je-Nsz" id="ryN-qe-iOO"/>
+                        <outlet property="distPicker" destination="UKf-X4-85S" id="wWb-Qf-rfD"/>
                         <outlet property="initialTextField" destination="gOj-XO-TPL" id="6s1-mY-H0D"/>
                         <outlet property="locatemeButton" destination="cZl-LD-0wM" id="V9q-yp-O7a"/>
                         <outlet property="mapView" destination="SYY-03-Vkb" id="VCP-CO-A2c"/>

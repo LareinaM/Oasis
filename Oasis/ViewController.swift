@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import SwiftUI
 import _Concurrency
 
 extension CLPlacemark {
@@ -59,6 +60,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var aView: UIView!
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var distPicker: UISegmentedControl!
     @IBOutlet weak var locatemeButton: UIButton!
     
     let maxTextFields = 10
@@ -68,19 +70,32 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     let buttonOffset : CGFloat = 80.0
     let offsetY : CGFloat = 16.0
     var offsetYFromAbove : CGFloat = 50.0
-    let offsetX : CGFloat = 25.0
+    var offsetX : CGFloat = 25.0
     var deleteButtonX : CGFloat = 315.0
     let textColor = UIColor(red: 66/255, green: 66/255, blue: 66/255, alpha: 1)
     let centeredParagraphStyle = NSMutableParagraphStyle()
-    let within : Double = 500  // TODO: select within
     let purple2 = UIColor(red: 160/255, green: 155/255, blue: 237/255, alpha: 1)
+    let purple3 = UIColor(red: 92/255, green: 83/255, blue: 223/255, alpha: 1)
+    let green1 = UIColor(red: 26/255, green: 161/255, blue: 184/255, alpha: 1)
     var textFieldCount: Int = 0
+    var pickerDataDict : [String:Int] = ["100m": 100, "200m": 200, "300m": 300, "500m": 500, "700m": 700, "1km": 1000, "1.5km": 1500, "2km": 2000]
+    var within : Int = 500  // TODO: select within
     
     func setUpButton(button: UIButton, n: Int){
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
         button.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         button.tag = n
+    }
+    
+    func setUpPicker(){
+        distPicker.frame.origin.x = offsetX
+        distPicker.frame.size.width = textFieldSize.width
+        distPicker.selectedSegmentTintColor = purple2
+        distPicker.tintColor = UIColor.white
+        distPicker.backgroundColor = UIColor.white
+        distPicker.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
+        distPicker.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : purple3], for: .normal)
     }
     
     func setUpThings(){
@@ -100,6 +115,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         plusButton.frame.origin = CGPoint(x: plusButton.frame.origin.x, y: buttonOffset + offsetYFromAbove)
         self.setUpButton(button: locatemeButton, n: 0)
         self.setUpButton(button: searchButton, n: 0)
+        
+        self.setUpPicker()
     }
     
     func setUpTextField(textField : UITextField, n : Int, currFont: UIFont, msg: String){
@@ -139,7 +156,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     @objc func deleteInputField(_ sender: UIButton) {
         let buttonTag = sender.tag
-        if buttonTag > 1 || textFieldCount > 1 {
+        if buttonTag > 11 || textFieldCount > 1 {
             // remove current
             self.removeButtonText(buttonTag: buttonTag)
             print("textfield with tag \(buttonTag-10) removed")
@@ -189,6 +206,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // Do any additional setup after loading the view.
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+        offsetX = (self.view.frame.width - textFieldSize.width) / 2
         offsetYFromAbove = self.view.frame.height / 2 + textFieldSize.height / 2 + offsetY - self.aView.frame.origin.y
         deleteButtonX = offsetX+textFieldSize.width-textFieldSize.height
         setUpThings()
@@ -224,6 +242,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // TODO: change view to scroll-able format
     
     @IBAction func search(_ sender: Any) {
+        let distStr = distPicker.titleForSegment(at: distPicker.selectedSegmentIndex)
+        within = pickerDataDict[distStr!]!
+        print(within)
         Task{
             var searchTexts = Set<String>()
             for tag in 1...textFieldCount{
@@ -243,7 +264,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func startSearch(searchTexts: [String], within: Double) async throws {
+    func startSearch(searchTexts: [String], within: Int) async throws {
         try await withThrowingTaskGroup(of: [MKPlacemark].self){ group in
             guard let startLocation = locationManager.location // TODO: get user's start location
             else {
@@ -271,7 +292,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                             for (jResultIdx,jPlace) in resultsJ.enumerated() {
                                 if let jCoord = jPlace.location{
                                     let distanceInMeters = jCoord.distance(from: iCoord)
-                                    if distanceInMeters <= within {
+                                    if distanceInMeters <= Double(within) {
                                         let iKeyy = Keyy(queryIndex: i, resultIndex: iResultIdx)
                                         //let jKeyy = Keyy(queryIndex: j, resultIndex: jResultIdx)
                                         (finalSearchResult[iKeyy, default: [:]][j, default: []]).append(jResultIdx)
@@ -373,4 +394,3 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
 }
-
