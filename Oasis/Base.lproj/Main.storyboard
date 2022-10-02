@@ -23,60 +23,68 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SYY-03-Vkb">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="422"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </mapView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HiY-zy-NMM">
-                                <rect key="frame" x="0.0" y="409" width="390" height="435"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="U6P-Ih-BVP">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" allowsEditingTextAttributes="YES" placeholder="Search for a location!" textAlignment="center" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="gOj-XO-TPL">
-                                        <rect key="frame" x="25" y="50" width="340" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" name="Pangolin-Regular" family="Pangolin" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SYY-03-Vkb">
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="422"/>
+                                    </mapView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HiY-zy-NMM">
+                                        <rect key="frame" x="0.0" y="422" width="390" height="422"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wuv-C9-dKa">
+                                                <rect key="frame" x="168" y="128" width="55" height="55"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                                <color key="tintColor" red="0.62796306609999997" green="0.60702723260000002" blue="0.92944794890000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <state key="normal">
+                                                    <imageReference key="image" image="plus.circle.fill" catalog="system" symbolScale="large"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="addInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="33V-SE-TAr"/>
+                                                </connections>
+                                            </button>
+                                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" allowsEditingTextAttributes="YES" placeholder="Search for a location!" textAlignment="center" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="gOj-XO-TPL">
+                                                <rect key="frame" x="25" y="50" width="340" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name="Pangolin-Regular" family="Pangolin" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0kD-je-Nsz">
+                                                <rect key="frame" x="315" y="50" width="50" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="tintColor" red="0.62745098039215685" green="0.60784313725490191" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" image="trash.fill" catalog="system" title="Button"/>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.89851707219999999" green="0.88911879059999999" blue="0.94118386509999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="10"/>
+                                                <integer key="value" value="15"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
                                         </userDefinedRuntimeAttributes>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wuv-C9-dKa">
-                                        <rect key="frame" x="133" y="130" width="55" height="55"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES"/>
-                                        <color key="tintColor" red="0.62796306609999997" green="0.60702723260000002" blue="0.92944794890000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <state key="normal">
-                                            <imageReference key="image" image="plus.circle.fill" catalog="system" symbolScale="large"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="addInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="33V-SE-TAr"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uCU-9O-TGL">
-                                        <rect key="frame" x="202" y="130" width="55" height="55"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" red="0.62796306609999997" green="0.60702723260000002" blue="0.92944794890000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <state key="normal">
-                                            <imageReference key="image" image="minus.circle.fill" catalog="system" symbolScale="large"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="deleteInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yLC-hy-aSD"/>
-                                        </connections>
-                                    </button>
+                                    </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.89851707219999999" green="0.88911879059999999" blue="0.94118386509999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="15"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
-                                </userDefinedRuntimeAttributes>
-                            </view>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="SYY-03-Vkb" secondAttribute="trailing" id="9jy-eI-Jzq"/>
+                                    <constraint firstAttribute="trailing" secondItem="HiY-zy-NMM" secondAttribute="trailing" id="Da1-Tr-aaL"/>
+                                    <constraint firstItem="HiY-zy-NMM" firstAttribute="width" secondItem="SYY-03-Vkb" secondAttribute="width" id="Giv-LG-4y8"/>
+                                    <constraint firstItem="SYY-03-Vkb" firstAttribute="top" secondItem="U6P-Ih-BVP" secondAttribute="top" id="Qaw-tm-weu"/>
+                                    <constraint firstItem="HiY-zy-NMM" firstAttribute="leading" secondItem="U6P-Ih-BVP" secondAttribute="leading" id="bwE-9Q-wCv"/>
+                                    <constraint firstItem="SYY-03-Vkb" firstAttribute="leading" secondItem="U6P-Ih-BVP" secondAttribute="leading" id="pxi-ub-97p"/>
+                                    <constraint firstItem="HiY-zy-NMM" firstAttribute="width" secondItem="SYY-03-Vkb" secondAttribute="width" id="xIN-Oh-fid"/>
+                                    <constraint firstAttribute="bottom" secondItem="HiY-zy-NMM" secondAttribute="bottom" id="xi9-4B-yl8"/>
+                                </constraints>
+                            </stackView>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZl-LD-0wM">
                                 <rect key="frame" x="16" y="295" width="55" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -113,13 +121,19 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="U6P-Ih-BVP" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="5MK-mG-YMA"/>
+                            <constraint firstAttribute="bottom" secondItem="U6P-Ih-BVP" secondAttribute="bottom" id="enu-Ck-SQM"/>
+                            <constraint firstItem="U6P-Ih-BVP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gwl-ol-XAw"/>
+                            <constraint firstItem="U6P-Ih-BVP" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="zvk-mT-zrg"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="aView" destination="HiY-zy-NMM" id="bBp-zd-eYA"/>
+                        <outlet property="deleteButton1" destination="0kD-je-Nsz" id="ryN-qe-iOO"/>
                         <outlet property="initialTextField" destination="gOj-XO-TPL" id="6s1-mY-H0D"/>
                         <outlet property="locatemeButton" destination="cZl-LD-0wM" id="V9q-yp-O7a"/>
                         <outlet property="mapView" destination="SYY-03-Vkb" id="VCP-CO-A2c"/>
-                        <outlet property="minusButton" destination="uCU-9O-TGL" id="uCh-KS-YDr"/>
                         <outlet property="plusButton" destination="wuv-C9-dKa" id="Jsd-dO-8CK"/>
                         <outlet property="searchButton" destination="4yy-ki-rir" id="6IM-X2-mv2"/>
                         <outlet property="startLocInput" destination="TJ9-Xy-D5L" id="YFv-JJ-Zcn"/>
@@ -132,9 +146,9 @@
     </scenes>
     <resources>
         <image name="arrow.right.circle.fill" catalog="system" width="128" height="123"/>
-        <image name="minus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="paperplane.fill" catalog="system" width="128" height="119"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="trash.fill" catalog="system" width="119" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

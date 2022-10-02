@@ -13,7 +13,7 @@ import _Concurrency
 extension CLPlacemark {
     var stringValue : String {
         get {
-            var address = "\(self.subThoroughfare ?? "") \(self.thoroughfare ?? ""), \(self.locality ?? "") \(self.subLocality ?? "") \(self.administrativeArea ?? ""), \(self.postalCode ?? "")"
+            let address = "\(self.subThoroughfare ?? "") \(self.thoroughfare ?? ""), \(self.locality ?? "") \(self.subLocality ?? "") \(self.administrativeArea ?? ""), \(self.postalCode ?? "")"
             return address
         }
     }
@@ -52,12 +52,12 @@ extension CLLocation {
 }
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
+    @IBOutlet weak var deleteButton1: UIButton!
     @IBOutlet weak var initialTextField: UITextField!
     @IBOutlet weak var startLocInput: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var aView: UIView!
     @IBOutlet weak var plusButton: UIButton!
-    @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var locatemeButton: UIButton!
     
@@ -67,41 +67,39 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     let buttonSize : CGFloat = 55.0
     let buttonOffset : CGFloat = 80.0
     let offsetY : CGFloat = 16.0
-    let offsetYFromAbove : CGFloat = 50.0
+    var offsetYFromAbove : CGFloat = 50.0
     let offsetX : CGFloat = 25.0
+    var deleteButtonX : CGFloat = 315.0
     let textColor = UIColor(red: 66/255, green: 66/255, blue: 66/255, alpha: 1)
     let centeredParagraphStyle = NSMutableParagraphStyle()
+    let within : Double = 500  // TODO: select within
+    let purple2 = UIColor(red: 160/255, green: 155/255, blue: 237/255, alpha: 1)
+    var textFieldCount: Int = 0
     
-    var textFields: [Int] = []
-    
-    func setUpButton(button: UIButton){
+    func setUpButton(button: UIButton, n: Int){
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
         button.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        button.tag = n
     }
     
     func setUpThings(){
         centeredParagraphStyle.alignment = .center
         
         self.setUpTextField(textField: initialTextField, n: 1, currFont: userInputFont, msg: "Search for a location!")
-        textFields.append(1)
-        setUpATextField(textField: initialTextField)
+        textFieldCount += 1
+        initialTextField.frame.origin.y = offsetYFromAbove
+        self.setUpButton(button: deleteButton1, n: 11)
+        deleteButton1.frame.origin = CGPoint(x: deleteButtonX, y: offsetYFromAbove)
+        deleteButton1.addTarget(self, action: #selector(deleteInputField), for: .touchUpInside)
         
         self.setUpTextField(textField: startLocInput, n: 12, currFont: userInputFont, msg: "📍Current Location")
+        startLocInput.frame.origin.y = self.view.frame.height / 2 - textFieldSize.height / 2
         
-        self.setUpButton(button: plusButton)
+        self.setUpButton(button: plusButton, n: 0)
         plusButton.frame.origin = CGPoint(x: plusButton.frame.origin.x, y: buttonOffset + offsetYFromAbove)
-        
-        self.setUpButton(button: minusButton)
-        minusButton.frame.origin = CGPoint(x: minusButton.frame.origin.x, y: buttonOffset + offsetYFromAbove)
-        
-        self.setUpButton(button: locatemeButton)
-        self.setUpButton(button: searchButton)
-        
-    }
-    
-    func setUpATextField(textField: UITextField) {
-        textField.addTarget(self,action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
+        self.setUpButton(button: locatemeButton, n: 0)
+        self.setUpButton(button: searchButton, n: 0)
     }
     
     func setUpTextField(textField : UITextField, n : Int, currFont: UIFont, msg: String){
@@ -119,38 +117,67 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 .paragraphStyle: centeredParagraphStyle,
                 NSAttributedString.Key.foregroundColor: UIColor.lightGray,
             ])
+        textField.addTarget(self,action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
     }
     
-    @IBAction func deleteInput(_ sender: Any) {
-        let n = textFields.count
-        if n > 1 {
-            let lastFieldTag = textFields.removeLast()
-            let toRemove : UITextField = self.aView.viewWithTag(lastFieldTag)! as! UITextField
-            toRemove.removeFromSuperview()
-            // adjust plus and minus button
+    func removeButtonText(buttonTag:Int){
+        let textToRemove : UITextField = self.aView.viewWithTag(buttonTag-10)! as! UITextField
+        textToRemove.removeFromSuperview()
+        let buttonToRemove : UIButton = self.aView.viewWithTag(buttonTag)! as! UIButton
+        buttonToRemove.removeFromSuperview()
+    }
+    
+    func moveButtonText(textTag:Int){
+        let textToMove : UITextField = self.aView.viewWithTag(textTag)! as! UITextField
+        let buttonToMove : UIButton = self.aView.viewWithTag(textTag+10)! as! UIButton
+        let changedY = textFieldSize.height + offsetY
+        textToMove.frame.origin.y -= changedY
+        textToMove.tag -= 1
+        buttonToMove.frame.origin.y -= changedY
+        buttonToMove.tag -= 1
+    }
+    
+    @objc func deleteInputField(_ sender: UIButton) {
+        let buttonTag = sender.tag
+        if buttonTag > 1 || textFieldCount > 1 {
+            // remove current
+            self.removeButtonText(buttonTag: buttonTag)
+            print("textfield with tag \(buttonTag-10) removed")
+            // move all fields below
+            if buttonTag-10 < textFieldCount {
+                for tagToMove in buttonTag-9...textFieldCount{
+                    print("move textfield with tag \(tagToMove)")
+                    self.moveButtonText(textTag: tagToMove)
+                }
+            }
+            // adjust plus button
             let y = plusButton.frame.origin.y - offsetY - textFieldSize.height
             plusButton.frame.origin.y = y
-            minusButton.frame.origin.y = y
+            textFieldCount -= 1
         }
         else {
             ProgressHUD.showError("🧐 You cannot delete anymore", image: nil, interaction: false)
         }
-         
     }
     
     @IBAction func addInput(_ sender: Any) {
-        if textFields.count < maxTextFields {
-            let n = textFields.count
-            let y = CGFloat(n) * (textFieldSize.height + offsetY) + offsetYFromAbove
+        if textFieldCount < maxTextFields {
+            let y = CGFloat(textFieldCount) * (textFieldSize.height + offsetY) + offsetYFromAbove
             let textField = UITextField(frame: CGRect(origin: CGPoint(x: offsetX, y: y), size: textFieldSize))
-            self.setUpTextField(textField: textField, n: n+1, currFont: userInputFont, msg: "Search for another location!")
-            setUpATextField(textField: textField)
+            self.setUpTextField(textField: textField, n: textFieldCount+1, currFont: userInputFont, msg: "Search for another location!")
             self.aView.addSubview(textField)
-            textFields.append(n+1)
+            
+            let newButton = UIButton(type: .system)
+            newButton.frame = CGRectMake(deleteButtonX, y, textFieldSize.height, textFieldSize.height)
+            newButton.setImage(UIImage(systemName: "trash.fill"), for: .normal)
+            newButton.tag = textFieldCount+11
+            newButton.addTarget(self, action: #selector(deleteInputField), for: .touchUpInside)
+            newButton.tintColor = purple2
+            self.aView.addSubview(newButton)
             
             // adjust plus button location
             plusButton.frame.origin.y = y + buttonOffset
-            minusButton.frame.origin.y = y + buttonOffset
+            textFieldCount += 1
         }
         else {
             ProgressHUD.showFailed("😱 It is enough for now...")
@@ -162,6 +189,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // Do any additional setup after loading the view.
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+        offsetYFromAbove = self.view.frame.height / 2 + textFieldSize.height / 2 + offsetY - self.aView.frame.origin.y
+        deleteButtonX = offsetX+textFieldSize.width-textFieldSize.height
         setUpThings()
     }
     
@@ -194,13 +223,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     // TODO: change view to scroll-able format
     
-    // TODO: get user's start location
-    
     @IBAction func search(_ sender: Any) {
         Task{
-            let within : Double = 500
             var searchTexts = Set<String>()
-            for tag in textFields{
+            for tag in 1...textFieldCount{
                 let thisTextField : UITextField = self.view.viewWithTag(tag)! as! UITextField
                 if (self.textFieldDidChange(thisTextField) != 0){
                     let currText = thisTextField.text!
@@ -219,7 +245,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func startSearch(searchTexts: [String], within: Double) async throws {
         try await withThrowingTaskGroup(of: [MKPlacemark].self){ group in
-            guard let startLocation = locationManager.location
+            guard let startLocation = locationManager.location // TODO: get user's start location
             else {
                 ProgressHUD.showError("Please choose a valid start location!")
                 return
@@ -247,11 +273,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                                     let distanceInMeters = jCoord.distance(from: iCoord)
                                     if distanceInMeters <= within {
                                         let iKeyy = Keyy(queryIndex: i, resultIndex: iResultIdx)
-                                        let jKeyy = Keyy(queryIndex: j, resultIndex: jResultIdx)
+                                        //let jKeyy = Keyy(queryIndex: j, resultIndex: jResultIdx)
                                         (finalSearchResult[iKeyy, default: [:]][j, default: []]).append(jResultIdx)
                                         //(finalSearchResult[jKeyy, default: [:]][i, default: []]).append(iResultIdx)
                                         let iCurrSize = finalSearchResult[iKeyy, default: [:]].count
-                                        let jCurrSize = finalSearchResult[jKeyy, default: [:]].count
+                                        // let jCurrSize = finalSearchResult[jKeyy, default: [:]].count
                                         if iCurrSize > maxCluster{
                                             maxCluster = iCurrSize
                                             resultKeyy = [iKeyy]
@@ -277,7 +303,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }
                 }
             }
-            if maxCluster < n-1{
+            if maxCluster < n-1 {
                 print("We cannot satisfy all requirements, but checkout...")
             }
             for keyy in resultKeyy{
