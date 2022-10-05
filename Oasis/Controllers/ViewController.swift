@@ -61,67 +61,81 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var distPicker: UISegmentedControl!
+    @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var locatemeButton: UIButton!
     
+    //MARK: - Setup
+    /***************************************************************/
+    
+    // TODO: change view to scroll-able format
+    
     let maxTextFields = 10
-    let textFieldSize = CGSize(width: 340, height: 50)
+    let textFieldSize = CGSize(width: 340, height: 50) // TODO: dynamic sizing
     let userInputFont : UIFont = UIFont(name: "Pangolin-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18.0)
-    let buttonSize : CGFloat = 55.0
+    let buttonSize : CGFloat = 55.0 // TODO: dynamic sizing
     let buttonOffset : CGFloat = 80.0
     let offsetY : CGFloat = 16.0
     var offsetYFromAbove : CGFloat = 50.0
-    var offsetX : CGFloat = 25.0
+    var offsetX : CGFloat = 25.0   // TODO: dynamic sizing
     var deleteButtonX : CGFloat = 315.0
-    let textColor = UIColor(red: 66/255, green: 66/255, blue: 66/255, alpha: 1)
     let centeredParagraphStyle = NSMutableParagraphStyle()
-    let purple2 = UIColor(red: 160/255, green: 155/255, blue: 237/255, alpha: 1)
-    let purple3 = UIColor(red: 92/255, green: 83/255, blue: 223/255, alpha: 1)
-    let green1 = UIColor(red: 26/255, green: 161/255, blue: 184/255, alpha: 1)
     var textFieldCount: Int = 0
     var pickerDataDict : [String:Int] = ["100m": 100, "200m": 200, "300m": 300, "500m": 500, "700m": 700, "1km": 1000, "1.5km": 1500, "2km": 2000]
-    var within : Int = 500  // TODO: select within
+    var within : Int = 500
+    var width : CGFloat!
+    var height : CGFloat!
     
-    func setUpButton(button: UIButton, n: Int){
+    func setUpButton(button: UIButton, n: Int, x: CGFloat,y : CGFloat, buttonWidth: CGFloat, buttonHeight: CGFloat){
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
         button.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         button.tag = n
+        button.frame = CGRectMake(x, y, buttonWidth, buttonHeight)
     }
     
     func setUpPicker(){
         distPicker.frame.origin.x = offsetX
+        var y = self.height / 2 - distPicker.frame.height
+        y = y - offsetY - textFieldSize.height / 2
+        distPicker.frame.origin.y = y
         distPicker.frame.size.width = textFieldSize.width
-        distPicker.selectedSegmentTintColor = purple2
+        distPicker.selectedSegmentTintColor = UIColor.MyTheme.purple2
         distPicker.tintColor = UIColor.white
         distPicker.backgroundColor = UIColor.white
         distPicker.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
-        distPicker.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : purple3], for: .normal)
+        distPicker.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.MyTheme.purple3], for: .normal)
     }
     
     func setUpThings(){
+        self.width = self.view.frame.width
+        self.height = self.view.frame.height
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        offsetX = (self.width - textFieldSize.width) / 2
+        offsetYFromAbove = self.height / 2 + textFieldSize.height / 2 + offsetY - self.aView.frame.origin.y
+        deleteButtonX = offsetX + textFieldSize.width - textFieldSize.height
         centeredParagraphStyle.alignment = .center
         
         self.setUpTextField(textField: initialTextField, n: 1, currFont: userInputFont, msg: "Search for a location!")
         textFieldCount += 1
         initialTextField.frame.origin.y = offsetYFromAbove
-        self.setUpButton(button: deleteButton1, n: 11)
-        deleteButton1.frame.origin = CGPoint(x: deleteButtonX, y: offsetYFromAbove)
+        self.setUpButton(button: deleteButton1, n: 11, x: deleteButtonX, y: offsetYFromAbove, buttonWidth: textFieldSize.height, buttonHeight: textFieldSize.height)
         deleteButton1.addTarget(self, action: #selector(deleteInputField), for: .touchUpInside)
         
         self.setUpTextField(textField: startLocInput, n: 12, currFont: userInputFont, msg: "📍Current Location")
-        startLocInput.frame.origin.y = self.view.frame.height / 2 - textFieldSize.height / 2
+        startLocInput.frame.origin.y = self.height / 2 - textFieldSize.height / 2
         
-        self.setUpButton(button: plusButton, n: 0)
-        plusButton.frame.origin = CGPoint(x: plusButton.frame.origin.x, y: buttonOffset + offsetYFromAbove)
-        self.setUpButton(button: locatemeButton, n: 0)
-        self.setUpButton(button: searchButton, n: 0)
+        self.setUpButton(button: plusButton, n: 0, x: plusButton.frame.origin.x, y: buttonOffset + offsetYFromAbove, buttonWidth: buttonSize, buttonHeight: buttonSize)
+        let twoButtonY = distPicker.frame.origin.y - offsetY * 2 - buttonSize
+        self.setUpButton(button: locatemeButton, n: 0, x: offsetX, y: twoButtonY, buttonWidth: buttonSize, buttonHeight: buttonSize)
+        self.setUpButton(button: searchButton, n: 0, x: self.width-offsetX-buttonSize, y: twoButtonY, buttonWidth: buttonSize, buttonHeight: buttonSize)
         
         self.setUpPicker()
     }
     
     func setUpTextField(textField : UITextField, n : Int, currFont: UIFont, msg: String){
         textField.backgroundColor = UIColor.white
-        textField.textColor = textColor
+        textField.textColor = UIColor.MyTheme.textColor
         textField.layer.cornerRadius = 10
         textField.textAlignment = .center
         textField.clipsToBounds = true
@@ -137,11 +151,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         textField.addTarget(self,action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        setUpThings()
+    }
+    
+    //MARK: - Add/Delete textfields
+    /***************************************************************/
     func removeButtonText(buttonTag:Int){
         let textToRemove : UITextField = self.aView.viewWithTag(buttonTag-10)! as! UITextField
         textToRemove.removeFromSuperview()
         let buttonToRemove : UIButton = self.aView.viewWithTag(buttonTag)! as! UIButton
         buttonToRemove.removeFromSuperview()
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) -> Int {
+        guard initialTextField.isValid(with: "Singapore")
+        else {
+             print("Please input a valid address ❌")
+             return 0
+            }
+        return 1
     }
     
     func moveButtonText(textTag:Int){
@@ -189,7 +220,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             newButton.setImage(UIImage(systemName: "trash.fill"), for: .normal)
             newButton.tag = textFieldCount+11
             newButton.addTarget(self, action: #selector(deleteInputField), for: .touchUpInside)
-            newButton.tintColor = purple2
+            newButton.tintColor = UIColor.MyTheme.purple2
             self.aView.addSubview(newButton)
             
             // adjust plus button location
@@ -200,18 +231,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             ProgressHUD.showFailed("😱 It is enough for now...")
         }
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        offsetX = (self.view.frame.width - textFieldSize.width) / 2
-        offsetYFromAbove = self.view.frame.height / 2 + textFieldSize.height / 2 + offsetY - self.aView.frame.origin.y
-        deleteButtonX = offsetX+textFieldSize.width-textFieldSize.height
-        setUpThings()
-    }
-    
+
+    //MARK: - Locations
+    /***************************************************************/
     lazy var locationManager: CLLocationManager = {
             var manager = CLLocationManager()
             manager.distanceFilter = 10
@@ -219,11 +241,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             return manager
         }()
     
-    func locationManager(_ manager: CLLocationManager,
-                         didChangeAuthorization status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse || status == .authorizedAlways {
             locationManager.startUpdatingLocation()
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+        ProgressHUD.showError("Location Unavailable")
     }
     
     func updateLocationOnMap(to location: CLLocation, with title: String?) {
@@ -237,10 +263,45 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.mapView.setRegion(viewRegion, animated: true)
         }
     
-    // TODO: enter a new storyboard when tap on search
+    func updatePlaceMark(to address: String) {
+        let geoCoder = CLGeocoder()
+            // not a location search feature, so for it to work it will need either a valid address, and identifiable location, a city, state or country in the field to have a result
+            geoCoder.geocodeAddressString(address) { (placemarks, error) in
+                guard
+                    let placemark = placemarks?.first,
+                    let location = placemark.location
+                else { return }
+                self.updateLocationOnMap(to: location, with: placemark.stringValue)
+            }
+        }
     
-    // TODO: change view to scroll-able format
+    // Update current location
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first
+        else { return }
+        
+        if location.horizontalAccuracy > 0{
+            // locationManager.stopUpdatingLocation()
+            print(location.coordinate)
+        }
+        
+        location.lookUpLocationName { (name) in
+            self.updateLocationOnMap(to: location, with: name)
+        }
+    }
     
+    @IBAction func currLocation(_ sender: Any) {
+        guard let currentLocation = locationManager.location
+        else { return }
+        
+        currentLocation.lookUpLocationName {
+            (name) in
+            self.updateLocationOnMap(to: currentLocation, with: name)
+        }
+    }
+    
+    //MARK: - Search
+    /***************************************************************/
     @IBAction func search(_ sender: Any) {
         let distStr = distPicker.titleForSegment(at: distPicker.selectedSegmentIndex)
         within = pickerDataDict[distStr!]!
@@ -283,59 +344,46 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let n = toSearch.count
             var maxCluster = 0
             var resultKeyy : [Keyy] = [Keyy]()
-            for i in 0...n-2{
-                let resultsI = toSearch[i]
-                for j in i+1...n-1{
-                    let resultsJ = toSearch[j]
-                    for (iResultIdx, iPlace) in resultsI.enumerated() {
-                        if let iCoord = iPlace.location{
-                            for (jResultIdx,jPlace) in resultsJ.enumerated() {
-                                if let jCoord = jPlace.location{
-                                    let distanceInMeters = jCoord.distance(from: iCoord)
-                                    if distanceInMeters <= Double(within) {
-                                        let iKeyy = Keyy(queryIndex: i, resultIndex: iResultIdx)
-                                        //let jKeyy = Keyy(queryIndex: j, resultIndex: jResultIdx)
-                                        (finalSearchResult[iKeyy, default: [:]][j, default: []]).append(jResultIdx)
-                                        //(finalSearchResult[jKeyy, default: [:]][i, default: []]).append(iResultIdx)
-                                        let iCurrSize = finalSearchResult[iKeyy, default: [:]].count
-                                        // let jCurrSize = finalSearchResult[jKeyy, default: [:]].count
-                                        if iCurrSize > maxCluster{
-                                            maxCluster = iCurrSize
-                                            resultKeyy = [iKeyy]
+            if n>1 {
+                for i in 0...n-2{
+                    let resultsI = toSearch[i]
+                    for j in i+1...n-1{
+                        let resultsJ = toSearch[j]
+                        for (iResultIdx, iPlace) in resultsI.enumerated() {
+                            if let iCoord = iPlace.location{
+                                for (jResultIdx,jPlace) in resultsJ.enumerated() {
+                                    if let jCoord = jPlace.location{
+                                        let distanceInMeters = jCoord.distance(from: iCoord)
+                                        if distanceInMeters <= Double(within) {
+                                            let iKeyy = Keyy(queryIndex: i, resultIndex: iResultIdx)
+                                            (finalSearchResult[iKeyy, default: [:]][j, default: []]).append(jResultIdx)
+                                            let iCurrSize = finalSearchResult[iKeyy, default: [:]].count
+                                            if iCurrSize > maxCluster{
+                                                maxCluster = iCurrSize
+                                                resultKeyy = [iKeyy]
+                                            }
+                                            else if iCurrSize == maxCluster{
+                                                resultKeyy.append(iKeyy)
+                                            }
                                         }
-                                        else if iCurrSize == maxCluster{
-                                            resultKeyy.append(iKeyy)
-                                        }
-                                        /*
-                                        if jCurrSize > maxCluster{
-                                            maxCluster = jCurrSize
-                                            resultKeyy = [jKeyy]
-                                        }
-                                        else if jCurrSize == maxCluster{
-                                            resultKeyy.append(jKeyy)
-                                        }
-                                         */
                                     }
+                                    else{ ProgressHUD.showFailed("Search failed for \(j+1)") }
                                 }
-                                else{ ProgressHUD.showFailed("Search failed for \(j+1)") }
                             }
+                            else{ ProgressHUD.showFailed("Search failed for \(i+1)") }
                         }
-                        else{ ProgressHUD.showFailed("Search failed for \(i+1)") }
                     }
                 }
             }
-            if maxCluster < n-1 {
-                print("We cannot satisfy all requirements, but checkout...")
-            }
-            for keyy in resultKeyy{
-                print(toSearch[keyy.queryIndex][keyy.resultIndex])
-                let neighborDict = finalSearchResult[keyy, default: [:]]
-                for (qIdx,rIdxLs) in neighborDict{
-                    for rIdx in rIdxLs{
-                        print(toSearch[qIdx][rIdx])
-                    }
-                }
-                print()
+            // TODO: show results
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let resultPage = storyboard.instantiateViewController(withIdentifier: "ResultViewController") as? ResultViewController{
+                self.present(resultPage, animated: true, completion: nil)
+                resultPage.resultKeyy = resultKeyy
+                resultPage.n = n
+                resultPage.toSearch = toSearch
+                resultPage.maxCluster = maxCluster
+                resultPage.finalSearchResult = finalSearchResult
             }
         }
     }
@@ -351,46 +399,5 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //sorted(by: { location.distance(from: $0) < location.distance(from: $1)
         result.append(contentsOf: places)
         return result
-    }
-    
-    func updatePlaceMark(to address: String) {
-        let geoCoder = CLGeocoder()
-            // not a location search feature, so for it to work it will need either a valid address, and identifiable location, a city, state or country in the field to have a result
-            geoCoder.geocodeAddressString(address) { (placemarks, error) in
-                guard
-                    let placemark = placemarks?.first,
-                    let location = placemark.location
-                else { return }
-                self.updateLocationOnMap(to: location, with: placemark.stringValue)
-            }
-        }
-    
-    @objc func textFieldDidChange(_ textField: UITextField) -> Int {
-        guard initialTextField.isValid(with: "Singapore")
-        else {
-             print("Please input a valid address ❌")
-             return 0
-            }
-        return 1
-    }
-    
-    func locationManager(_ manager: CLLocationManager,
-                            didUpdateLocations locations: [CLLocation]) {
-           guard let location = locations.first
-               else { return }
-           
-           location.lookUpLocationName { (name) in
-               self.updateLocationOnMap(to: location, with: name)
-           }
-       }
-    
-    @IBAction func currLocation(_ sender: Any) {
-        guard let currentLocation = locationManager.location
-        else { return }
-        
-        currentLocation.lookUpLocationName {
-            (name) in
-            self.updateLocationOnMap(to: currentLocation, with: name)
-        }
     }
 }
