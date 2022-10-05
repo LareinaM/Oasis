@@ -24,18 +24,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="-10" translatesAutoresizingMaskIntoConstraints="NO" id="U6P-Ih-BVP">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SYY-03-Vkb">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="435"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CEw-1F-513">
+                                <rect key="frame" x="-20" y="180" width="430" height="993"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SYY-03-Vkb">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="427"/>
-                                    </mapView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HiY-zy-NMM">
-                                        <rect key="frame" x="0.0" y="417" width="390" height="427"/>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HiY-zy-NMM">
+                                        <rect key="frame" x="20" y="239" width="390" height="422"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wuv-C9-dKa">
-                                                <rect key="frame" x="168" y="128" width="55" height="60"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                                <rect key="frame" x="168" y="128" width="55" height="55"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <color key="tintColor" red="0.62796306609999997" green="0.60702723260000002" blue="0.92944794890000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <state key="normal">
                                                     <imageReference key="image" image="plus.circle.fill" catalog="system" symbolScale="large"/>
@@ -66,26 +69,16 @@
                                                 <buttonConfiguration key="configuration" style="plain" image="trash.fill" catalog="system"/>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.89803921568627454" green="0.8901960784313725" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="15"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="SYY-03-Vkb" secondAttribute="trailing" id="9jy-eI-Jzq"/>
-                                    <constraint firstAttribute="trailing" secondItem="HiY-zy-NMM" secondAttribute="trailing" id="Da1-Tr-aaL"/>
-                                    <constraint firstItem="HiY-zy-NMM" firstAttribute="width" secondItem="SYY-03-Vkb" secondAttribute="width" id="Giv-LG-4y8"/>
-                                    <constraint firstItem="SYY-03-Vkb" firstAttribute="top" secondItem="U6P-Ih-BVP" secondAttribute="top" id="Qaw-tm-weu"/>
-                                    <constraint firstItem="HiY-zy-NMM" firstAttribute="leading" secondItem="U6P-Ih-BVP" secondAttribute="leading" id="bwE-9Q-wCv"/>
-                                    <constraint firstItem="SYY-03-Vkb" firstAttribute="leading" secondItem="U6P-Ih-BVP" secondAttribute="leading" id="pxi-ub-97p"/>
-                                    <constraint firstItem="HiY-zy-NMM" firstAttribute="width" secondItem="SYY-03-Vkb" secondAttribute="width" id="xIN-Oh-fid"/>
-                                    <constraint firstAttribute="bottom" secondItem="HiY-zy-NMM" secondAttribute="bottom" id="xi9-4B-yl8"/>
-                                </constraints>
-                            </stackView>
+                                <color key="backgroundColor" red="0.8980392157" green="0.89019607840000003" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="8LX-Hg-i7l"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="lvA-Ml-lAx"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.cornerRadius" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </scrollView>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZl-LD-0wM">
                                 <rect key="frame" x="16" y="270" width="55" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -132,12 +125,6 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="U6P-Ih-BVP" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="5MK-mG-YMA"/>
-                            <constraint firstAttribute="bottom" secondItem="U6P-Ih-BVP" secondAttribute="bottom" id="enu-Ck-SQM"/>
-                            <constraint firstItem="U6P-Ih-BVP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gwl-ol-XAw"/>
-                            <constraint firstItem="U6P-Ih-BVP" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="zvk-mT-zrg"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="aView" destination="HiY-zy-NMM" id="bBp-zd-eYA"/>
@@ -147,14 +134,14 @@
                         <outlet property="locatemeButton" destination="cZl-LD-0wM" id="V9q-yp-O7a"/>
                         <outlet property="mapView" destination="SYY-03-Vkb" id="VCP-CO-A2c"/>
                         <outlet property="plusButton" destination="wuv-C9-dKa" id="Jsd-dO-8CK"/>
+                        <outlet property="scrollView" destination="CEw-1F-513" id="9H9-Bg-ayn"/>
                         <outlet property="searchButton" destination="4yy-ki-rir" id="6IM-X2-mv2"/>
-                        <outlet property="stackView" destination="U6P-Ih-BVP" id="tUH-2g-52w"/>
                         <outlet property="startLocInput" destination="TJ9-Xy-D5L" id="YFv-JJ-Zcn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4.615384615384615" y="76.777251184834114"/>
+            <point key="canvasLocation" x="-6.1538461538461533" y="75.355450236966817"/>
         </scene>
         <!--Result View Controller-->
         <scene sceneID="ZMQ-yX-3CC">

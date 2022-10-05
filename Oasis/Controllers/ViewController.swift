@@ -61,7 +61,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var distPicker: UISegmentedControl!
-    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var locatemeButton: UIButton!
     
     //MARK: - Setup
@@ -73,9 +73,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     let textFieldSize = CGSize(width: 340, height: 50) // TODO: dynamic sizing
     let userInputFont : UIFont = UIFont(name: "Pangolin-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18.0)
     let buttonSize : CGFloat = 55.0 // TODO: dynamic sizing
-    let buttonOffset : CGFloat = 80.0
-    let offsetY : CGFloat = 16.0
-    var offsetYFromAbove : CGFloat = 50.0
+    let buttonOffset : CGFloat = 80.0 // distance from plusbutton to last textfield
+    let offsetY : CGFloat = 16.0 // offset between textfields
+    var offsetYFromAbove : CGFloat = 50.0 // first textfield offset
     var offsetX : CGFloat = 25.0   // TODO: dynamic sizing
     var deleteButtonX : CGFloat = 315.0
     let centeredParagraphStyle = NSMutableParagraphStyle()
@@ -107,30 +107,47 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func setUpThings(){
-        self.width = self.view.frame.width
-        self.height = self.view.frame.height
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        offsetX = (self.width - textFieldSize.width) / 2
-        offsetYFromAbove = self.height / 2 + textFieldSize.height / 2 + offsetY - self.aView.frame.origin.y
-        deleteButtonX = offsetX + textFieldSize.width - textFieldSize.height
         centeredParagraphStyle.alignment = .center
         
+        // set parameters
+        self.width = self.view.frame.width
+        self.height = self.view.frame.height
+        let aViewOriginY = self.height/2 - 10
+        offsetX = (self.width - textFieldSize.width) / 2
+        offsetYFromAbove = self.height / 2 + textFieldSize.height / 2 + offsetY - aViewOriginY
+        deleteButtonX = offsetX + textFieldSize.width - textFieldSize.height
+        
+        // set views
+        let halfSizeOverlap = self.height/2 + 10
+        self.scrollView.isScrollEnabled = true
+        self.scrollView.superview!.isUserInteractionEnabled = true
+        self.scrollView.layer.cornerRadius = 10
+        self.aView.frame = CGRect(x: 0, y: 0, width: self.width, height: halfSizeOverlap)
+        self.scrollView.frame = CGRect(x: 0, y: aViewOriginY, width: self.width, height: halfSizeOverlap)
+        self.scrollView.contentSize = CGSizeMake(self.width, halfSizeOverlap+3)
+        self.mapView.frame = CGRect(x: 0, y: 0, width: self.width, height: self.height/2 + 10)
+        print(self.scrollView.contentSize, self.view.bounds.size)
+        
+        // set textfields
         self.setUpTextField(textField: initialTextField, n: 1, currFont: userInputFont, msg: "Search for a location!")
         textFieldCount += 1
         initialTextField.frame.origin.y = offsetYFromAbove
-        self.setUpButton(button: deleteButton1, n: 11, x: deleteButtonX, y: offsetYFromAbove, buttonWidth: textFieldSize.height, buttonHeight: textFieldSize.height)
-        deleteButton1.addTarget(self, action: #selector(deleteInputField), for: .touchUpInside)
-        
-        self.setUpTextField(textField: startLocInput, n: 12, currFont: userInputFont, msg: "📍Current Location")
+        self.setUpTextField(textField: startLocInput, n: 21, currFont: userInputFont, msg: "📍Current Location")
         startLocInput.frame.origin.y = self.height / 2 - textFieldSize.height / 2
         
+        // set buttons
+        self.setUpButton(button: deleteButton1, n: 11, x: deleteButtonX, y: offsetYFromAbove, buttonWidth: textFieldSize.height, buttonHeight: textFieldSize.height)
+        deleteButton1.addTarget(self, action: #selector(deleteInputField), for: .touchUpInside)
+        deleteButton1.setTitle("", for: .normal)
         self.setUpButton(button: plusButton, n: 0, x: plusButton.frame.origin.x, y: buttonOffset + offsetYFromAbove, buttonWidth: buttonSize, buttonHeight: buttonSize)
+        
+        self.setUpPicker()
+        
         let twoButtonY = distPicker.frame.origin.y - offsetY * 2 - buttonSize
         self.setUpButton(button: locatemeButton, n: 0, x: offsetX, y: twoButtonY, buttonWidth: buttonSize, buttonHeight: buttonSize)
         self.setUpButton(button: searchButton, n: 0, x: self.width-offsetX-buttonSize, y: twoButtonY, buttonWidth: buttonSize, buttonHeight: buttonSize)
-        
-        self.setUpPicker()
     }
     
     func setUpTextField(textField : UITextField, n : Int, currFont: UIFont, msg: String){
@@ -211,6 +228,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func addInput(_ sender: Any) {
         if textFieldCount < maxTextFields {
             let y = CGFloat(textFieldCount) * (textFieldSize.height + offsetY) + offsetYFromAbove
+            
+            let currHeight = self.aView.frame.height
+            print(currHeight, y + textFieldSize.height, y + textFieldSize.height+buttonOffset+buttonSize)
+            if y + textFieldSize.height >= currHeight || y + textFieldSize.height+buttonOffset+buttonSize >= currHeight {
+                print("resize!!")
+                let newHeight = currHeight + offsetY + textFieldSize.height + 10
+                self.aView.frame = CGRect(x: self.aView.frame.origin.x, y: self.aView.frame.origin.y, width: self.aView.frame.width, height: newHeight)
+                self.scrollView.contentSize = CGSizeMake(self.width, newHeight + 10)
+            }
+            print(self.scrollView.contentSize)
             let textField = UITextField(frame: CGRect(origin: CGPoint(x: offsetX, y: y), size: textFieldSize))
             self.setUpTextField(textField: textField, n: textFieldCount+1, currFont: userInputFont, msg: "Search for another location!")
             self.aView.addSubview(textField)
@@ -226,6 +253,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             // adjust plus button location
             plusButton.frame.origin.y = y + buttonOffset
             textFieldCount += 1
+            
         }
         else {
             ProgressHUD.showFailed("😱 It is enough for now...")
