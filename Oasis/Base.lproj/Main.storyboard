@@ -19,7 +19,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Oasis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Oasis" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -156,24 +156,52 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IUO-aX-kbB">
-                                <rect key="frame" x="16" y="28" width="32" height="46"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IUO-aX-kbB">
+                                <rect key="frame" x="16" y="28" width="32" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="32" id="D8e-iE-DcK"/>
-                                    <constraint firstAttribute="width" constant="32" id="N1K-9Z-ZDn"/>
+                                    <constraint firstAttribute="width" constant="32" id="9Vg-bp-Pqg"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="left"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button" image="left">
+                                    <attributedString key="attributedTitle"/>
+                                </state>
+                                <buttonConfiguration key="configuration" style="plain" image="left" title=""/>
+                                <connections>
+                                    <action selector="dismiss:" destination="f75-aA-Qje" eventType="touchUpInside" id="T3W-eb-DUt"/>
+                                </connections>
                             </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T61-g9-uXR">
+                                <rect key="frame" x="0.0" y="382" width="390" height="462"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uqY-oR-hhl">
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="462"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.8980392157" green="0.89019607840000003" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="vjW-JJ-ktY"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="HnE-M7-Dkk"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.cornerRadius" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="YP0-ZD-Iau"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="IUO-aX-kbB" firstAttribute="leading" secondItem="YP0-ZD-Iau" secondAttribute="leading" constant="16" id="0TB-ve-MMG"/>
-                            <constraint firstItem="IUO-aX-kbB" firstAttribute="top" secondItem="bpZ-Gu-Dcd" secondAttribute="top" constant="28" id="5z2-k8-pbg"/>
-                            <constraint firstItem="IUO-aX-kbB" firstAttribute="leading" secondItem="YP0-ZD-Iau" secondAttribute="leading" constant="16" id="W2W-hS-Atb"/>
+                            <constraint firstItem="IUO-aX-kbB" firstAttribute="leading" secondItem="bpZ-Gu-Dcd" secondAttribute="leading" constant="16" id="VHO-VQ-3Rt"/>
+                            <constraint firstItem="IUO-aX-kbB" firstAttribute="top" secondItem="bpZ-Gu-Dcd" secondAttribute="top" constant="28" id="VmQ-aL-wBw"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="5Tn-tr-S3B"/>
+                    <connections>
+                        <outlet property="aView" destination="uqY-oR-hhl" id="X4K-cn-kvW"/>
+                        <outlet property="backButton" destination="IUO-aX-kbB" id="fEI-cx-a9w"/>
+                        <outlet property="mapView" destination="V7K-p0-728" id="aBb-Ci-P93"/>
+                        <outlet property="scrollView" destination="T61-g9-uXR" id="nfJ-sU-HVQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gNQ-fK-Lto" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -182,7 +210,7 @@
     </scenes>
     <resources>
         <image name="arrow.right.circle.fill" catalog="system" width="128" height="123"/>
-        <image name="left" width="32" height="32"/>
+        <image name="left" width="16" height="16"/>
         <image name="paperplane.fill" catalog="system" width="128" height="119"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="trash.fill" catalog="system" width="119" height="128"/>

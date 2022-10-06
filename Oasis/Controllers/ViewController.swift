@@ -70,7 +70,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // TODO: change view to scroll-able format
     
     let maxTextFields = 10
-    let textFieldSize = CGSize(width: 340, height: 50) // TODO: dynamic sizing
+    var textFieldSize = CGSize(width: 340, height: 50) // TODO: dynamic sizing
     let userInputFont : UIFont = UIFont(name: "Pangolin-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18.0)
     let buttonSize : CGFloat = 55.0 // TODO: dynamic sizing
     let buttonOffset : CGFloat = 80.0 // distance from plusbutton to last textfield
@@ -124,10 +124,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.scrollView.isScrollEnabled = true
         self.scrollView.superview!.isUserInteractionEnabled = true
         self.scrollView.layer.cornerRadius = 10
-        self.aView.frame = CGRect(x: 0, y: 0, width: self.width, height: halfSizeOverlap)
         self.scrollView.frame = CGRect(x: 0, y: aViewOriginY, width: self.width, height: halfSizeOverlap)
         self.scrollView.contentSize = CGSizeMake(self.width, halfSizeOverlap+3)
-        self.mapView.frame = CGRect(x: 0, y: 0, width: self.width, height: self.height/2 + 10)
+        self.aView.frame = CGRect(x: 0, y: 0, width: self.width, height: halfSizeOverlap)
+        self.mapView.frame = CGRect(x: 0, y: 0, width: self.width, height: halfSizeOverlap)
         print(self.scrollView.contentSize, self.view.bounds.size)
         
         // set textfields
@@ -230,14 +230,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let y = CGFloat(textFieldCount) * (textFieldSize.height + offsetY) + offsetYFromAbove
             
             let currHeight = self.aView.frame.height
-            print(currHeight, y + textFieldSize.height, y + textFieldSize.height+buttonOffset+buttonSize)
             if y + textFieldSize.height >= currHeight || y + textFieldSize.height+buttonOffset+buttonSize >= currHeight {
-                print("resize!!")
                 let newHeight = currHeight + offsetY + textFieldSize.height + 10
                 self.aView.frame = CGRect(x: self.aView.frame.origin.x, y: self.aView.frame.origin.y, width: self.aView.frame.width, height: newHeight)
                 self.scrollView.contentSize = CGSizeMake(self.width, newHeight + 10)
             }
-            print(self.scrollView.contentSize)
             let textField = UITextField(frame: CGRect(origin: CGPoint(x: offsetX, y: y), size: textFieldSize))
             self.setUpTextField(textField: textField, n: textFieldCount+1, currFont: userInputFont, msg: "Search for another location!")
             self.aView.addSubview(textField)
@@ -310,7 +307,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         if location.horizontalAccuracy > 0{
             // locationManager.stopUpdatingLocation()
-            print(location.coordinate)
         }
         
         location.lookUpLocationName { (name) in
@@ -403,15 +399,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }
                 }
             }
-            // TODO: show results
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             if let resultPage = storyboard.instantiateViewController(withIdentifier: "ResultViewController") as? ResultViewController{
-                self.present(resultPage, animated: true, completion: nil)
                 resultPage.resultKeyy = resultKeyy
                 resultPage.n = n
                 resultPage.toSearch = toSearch
                 resultPage.maxCluster = maxCluster
                 resultPage.finalSearchResult = finalSearchResult
+             self.present(resultPage, animated: true, completion: nil)
             }
         }
     }
@@ -423,8 +418,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let search = MKLocalSearch(request: searchRequest)
         var result = [MKPlacemark]()
         let response = try await search.start()
-        let places = response.mapItems.map({$0.placemark})
-        //sorted(by: { location.distance(from: $0) < location.distance(from: $1)
+        var places = response.mapItems.map({$0.placemark})
+        places = Array(Set(places))
+        places = places.sorted(by: { startFrom.distance(from: $0.location!) < startFrom.distance(from: $1.location!)})
         result.append(contentsOf: places)
         return result
     }

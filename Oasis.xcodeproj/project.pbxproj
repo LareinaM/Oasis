@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E327FFDA28E04FB300B1E72C /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327FFD928E04FB300B1E72C /* ProgressHUD.swift */; };
+		E32F89BC28EE8A9D00AEFF66 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32F89BB28EE8A9D00AEFF66 /* Location.swift */; };
 		E3533CA028EB35100040EF11 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3533C9F28EB35100040EF11 /* ResultViewController.swift */; };
 		E3533CA228EB39BB0040EF11 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3533CA128EB39BB0040EF11 /* Colors.swift */; };
 		E38BF9D428DE0395000DB992 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38BF9D328DE0395000DB992 /* AppDelegate.swift */; };
@@ -19,10 +20,14 @@
 		E38BF9E928DE03A2000DB992 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E38BF9E828DE03A2000DB992 /* MapKit.framework */; };
 		E38EB4BA28DF6EFB0066ACEE /* Pangolin-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E38EB4B928DF6EFB0066ACEE /* Pangolin-Regular.ttf */; };
 		E3935C7628E8ABB00018FE0F /* Keyy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3935C7528E8ABB00018FE0F /* Keyy.swift */; };
+		E3B20CB628EE9166001923BF /* Artwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B20CB528EE9166001923BF /* Artwork.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E65C1FBC1C037FEEB110C8D /* Pods-Oasis.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oasis.release.xcconfig"; path = "Target Support Files/Pods-Oasis/Pods-Oasis.release.xcconfig"; sourceTree = "<group>"; };
+		B331F545D9DF1749AB239441 /* Pods-Oasis.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oasis.debug.xcconfig"; path = "Target Support Files/Pods-Oasis/Pods-Oasis.debug.xcconfig"; sourceTree = "<group>"; };
 		E327FFD928E04FB300B1E72C /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProgressHUD.swift; path = "../../../../Downloads/ProgressHUD-master/ProgressHUD/Sources/ProgressHUD.swift"; sourceTree = "<group>"; };
+		E32F89BB28EE8A9D00AEFF66 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		E3533C9F28EB35100040EF11 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		E3533CA128EB39BB0040EF11 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		E38BF9D028DE0395000DB992 /* Oasis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oasis.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,6 +41,7 @@
 		E38BF9E828DE03A2000DB992 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E38EB4B928DF6EFB0066ACEE /* Pangolin-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pangolin-Regular.ttf"; path = "../../../../fonts/Pangolin-Regular.ttf"; sourceTree = "<group>"; };
 		E3935C7528E8ABB00018FE0F /* Keyy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyy.swift; sourceTree = "<group>"; };
+		E3B20CB528EE9166001923BF /* Artwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +56,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D7F29B911A7C432D884D77E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B331F545D9DF1749AB239441 /* Pods-Oasis.debug.xcconfig */,
+				0E65C1FBC1C037FEEB110C8D /* Pods-Oasis.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E327FFD828E04FA100B1E72C /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +88,7 @@
 				E38BF9D228DE0395000DB992 /* Oasis */,
 				E38BF9D128DE0395000DB992 /* Products */,
 				E38BF9E728DE03A2000DB992 /* Frameworks */,
+				4D7F29B911A7C432D884D77E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,6 +138,8 @@
 			children = (
 				E3935C7528E8ABB00018FE0F /* Keyy.swift */,
 				E3533CA128EB39BB0040EF11 /* Colors.swift */,
+				E32F89BB28EE8A9D00AEFF66 /* Location.swift */,
+				E3B20CB528EE9166001923BF /* Artwork.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -133,6 +151,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E38BF9E428DE0399000DB992 /* Build configuration list for PBXNativeTarget "Oasis" */;
 			buildPhases = (
+				DED8EF68320FCB768867BC81 /* [CP] Check Pods Manifest.lock */,
 				E38BF9CC28DE0395000DB992 /* Sources */,
 				E38BF9CD28DE0395000DB992 /* Frameworks */,
 				E38BF9CE28DE0395000DB992 /* Resources */,
@@ -192,6 +211,31 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		DED8EF68320FCB768867BC81 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Oasis-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E38BF9CC28DE0395000DB992 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -199,10 +243,12 @@
 			files = (
 				E38BF9D828DE0395000DB992 /* ViewController.swift in Sources */,
 				E38BF9D428DE0395000DB992 /* AppDelegate.swift in Sources */,
+				E32F89BC28EE8A9D00AEFF66 /* Location.swift in Sources */,
 				E327FFDA28E04FB300B1E72C /* ProgressHUD.swift in Sources */,
 				E3533CA228EB39BB0040EF11 /* Colors.swift in Sources */,
 				E38BF9D628DE0395000DB992 /* SceneDelegate.swift in Sources */,
 				E3935C7628E8ABB00018FE0F /* Keyy.swift in Sources */,
+				E3B20CB628EE9166001923BF /* Artwork.swift in Sources */,
 				E3533CA028EB35100040EF11 /* ResultViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,6 +393,7 @@
 		};
 		E38BF9E528DE0399000DB992 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B331F545D9DF1749AB239441 /* Pods-Oasis.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -368,6 +415,7 @@
 		};
 		E38BF9E628DE0399000DB992 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0E65C1FBC1C037FEEB110C8D /* Pods-Oasis.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
