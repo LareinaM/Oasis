@@ -208,7 +208,7 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
                 print(place.stringValue,"\n")
             }
         }
-        currentAnnot.markerTintColor = UIColor.MyTheme.purple1
+        currentAnnot.markerTintColor = UIColor.red
         currentAnnot.title = "Start Here"
         currentAnnot.coordinate = CLLocationCoordinate2D(latitude: startLocation.coordinate.latitude, longitude: startLocation.coordinate.longitude)
         self.mapView.addAnnotation(currentAnnot)

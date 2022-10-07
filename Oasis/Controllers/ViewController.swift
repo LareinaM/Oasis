@@ -21,7 +21,7 @@ extension CLPlacemark {
 }
 
 extension UITextField {
-    func isValid(with word: String) -> Bool {
+    func isValid() -> Bool {
         guard let text = self.text, !text.isEmpty
         else {
             return false
@@ -182,7 +182,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) -> Int {
-        guard initialTextField.isValid(with: "Singapore")
+        guard initialTextField.isValid()
         else {
              print("Please input a valid address ❌")
              return 0
@@ -302,11 +302,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first
         else { return }
-        
+        /*
         if location.horizontalAccuracy > 0{
-            // locationManager.stopUpdatingLocation()
+            locationManager.stopUpdatingLocation()
         }
-        
+         */
         location.lookUpLocationName { (name) in
             self.updateLocationOnMap(to: location, with: name)
         }
@@ -329,6 +329,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         within = pickerDataDict[distStr!]!
         print(within)
         Task{
+            var startLocation : CLLocation = await getSearchedLocation(str: startLocInput.text!)
             var searchTexts = Set<String>()
             for tag in 1...textFieldCount{
                 let thisTextField : UITextField = self.view.viewWithTag(tag)! as! UITextField
@@ -343,17 +344,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }
                 }
             }
-            try await self.startSearch(searchTexts: Array(searchTexts), within: within)
+            try await self.startSearch(searchTexts: Array(searchTexts), within: within, startLocation: startLocation)
         }
     }
     
-    func startSearch(searchTexts: [String], within: Int) async throws {
-        try await withThrowingTaskGroup(of: [MKPlacemark].self){ group in
-            guard let startLocation = locationManager.location // TODO: get user's start location
-            else {
-                ProgressHUD.showError("Please choose a valid start location!")
-                return
+    func getSearchedLocation(str:String) async -> CLLocation{
+        guard var startLocation = locationManager.location
+        else {
+            ProgressHUD.showError("Please choose a valid start location!")
+            return CLLocation()
+        }
+        if self.textFieldDidChange(startLocInput) != 0 {  // TODO: get user's start location
+            do{
+                startLocation = try await searchForLocation(to: startLocInput.text!, startFrom: startLocation)[0].location!
+            }catch{
+                print(error)
             }
+        }
+        print(startLocation)
+        return startLocation
+    }
+    
+    func startSearch(searchTexts: [String], within: Int, startLocation: CLLocation) async throws {
+        try await withThrowingTaskGroup(of: [MKPlacemark].self){ group in
             for text in searchTexts {
                 group.addTask {
                     try await self.searchForLocation(to: text, startFrom: startLocation) }
