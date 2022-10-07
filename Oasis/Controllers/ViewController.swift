@@ -67,8 +67,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: - Setup
     /***************************************************************/
     
-    // TODO: change view to scroll-able format
-    
     let maxTextFields = 10
     var textFieldSize = CGSize(width: 340, height: 50) // TODO: dynamic sizing
     let userInputFont : UIFont = UIFont(name: "Pangolin-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18.0)
@@ -404,6 +402,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 resultPage.resultKeyy = resultKeyy
                 resultPage.n = n
                 resultPage.toSearch = toSearch
+                resultPage.startLocation = startLocation
                 resultPage.maxCluster = maxCluster
                 resultPage.finalSearchResult = finalSearchResult
              self.present(resultPage, animated: true, completion: nil)

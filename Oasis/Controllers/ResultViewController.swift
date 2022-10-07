@@ -16,7 +16,7 @@ protocol SecondViewControllerDelegate {
 }
 
 class MyPointAnnotation : MKPointAnnotation {
-    var pinTintColor: UIColor?
+    var markerTintColor: UIColor?
 }
 
 extension String {
@@ -85,11 +85,13 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
     
     var resultKeyy : [Keyy] = [Keyy]()
     var n : Int = 0
+    let currentAnnot = MyPointAnnotation()
     var toSearch = [[MKPlacemark]]()
     var maxCluster : Int = 0
     var finalSearchResult : [Keyy:[Int:[Int]]] = [:]
     var width : CGFloat!
     var height : CGFloat!
+    var startLocation : CLLocation!
     var labelWidth = 340      // TODO: dynamic sizing
     var offsetX : CGFloat = 25.0   // TODO: dynamic sizing
     let offsetY : CGFloat = 16.0 // offset between textfields
@@ -206,18 +208,28 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
                 print(place.stringValue,"\n")
             }
         }
+        currentAnnot.markerTintColor = UIColor.MyTheme.purple1
+        currentAnnot.title = "Start Here"
+        currentAnnot.coordinate = CLLocationCoordinate2D(latitude: startLocation.coordinate.latitude, longitude: startLocation.coordinate.longitude)
+        self.mapView.addAnnotation(currentAnnot)
     }
     
     @objc func labelTap(_ gesture: UITapGestureRecognizer){
         let label = gesture.view as! PaddingLabel
         var annotations = [MKAnnotation]()
         var zoomRect = MKMapRect.null
+        var coordSet = Set<[Double]>()
         for (idx, locationLs) in label.locations {
-            for location in locationLs{
+            for (i, location) in locationLs.enumerated(){
                 let annotation = MyPointAnnotation()
-                annotation.pinTintColor = self.colorSwitch[idx]
+                annotation.markerTintColor = self.colorSwitch[idx]
                 annotation.title = location.title
-                annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+                var lon = location.longitude
+                let lat = location.longitude
+                if coordSet.contains( [lat, lon] ){
+                    lon += 1
+                }
+                annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: lon)
                 annotations.append(annotation)
                 let annotationPoint = MKMapPoint(annotation.coordinate)
                 let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0, height: 0)
@@ -229,20 +241,24 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
                 }
             }
         }
+        annotations.append(currentAnnot)
+        let allAnnotations = self.mapView.annotations
+        self.mapView.removeAnnotations(allAnnotations)
         mapView.addAnnotations(annotations)
-        mapView.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
+        mapView.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 70, left: 70, bottom: 70, right: 70), animated: true)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "myAnnotation") as? MKPinAnnotationView
-            if annotationView == nil {
-                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "myAnnotation")
-            } else {
-                annotationView?.annotation = annotation
-            }
-            if let annotation = annotation as? MyPointAnnotation {
-                annotationView?.pinTintColor = annotation.pinTintColor
-            }
-            return annotationView
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "myAnnotation") as? MKMarkerAnnotationView
+        if annotationView == nil {
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "myAnnotation")
         }
+        else {
+            annotationView?.annotation = annotation
+        }
+        if let annotation = annotation as? MyPointAnnotation {
+            annotationView?.markerTintColor = annotation.markerTintColor
+        }
+        return annotationView
+    }
 }
