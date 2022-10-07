@@ -20,7 +20,7 @@
 		E38BF9E928DE03A2000DB992 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E38BF9E828DE03A2000DB992 /* MapKit.framework */; };
 		E38EB4BA28DF6EFB0066ACEE /* Pangolin-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E38EB4B928DF6EFB0066ACEE /* Pangolin-Regular.ttf */; };
 		E3935C7628E8ABB00018FE0F /* Keyy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3935C7528E8ABB00018FE0F /* Keyy.swift */; };
-		E3B20CB628EE9166001923BF /* Artwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B20CB528EE9166001923BF /* Artwork.swift */; };
+		E3B20CB828F07ECD001923BF /* allExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B20CB728F07ECD001923BF /* allExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +41,7 @@
 		E38BF9E828DE03A2000DB992 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E38EB4B928DF6EFB0066ACEE /* Pangolin-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pangolin-Regular.ttf"; path = "../../../../fonts/Pangolin-Regular.ttf"; sourceTree = "<group>"; };
 		E3935C7528E8ABB00018FE0F /* Keyy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyy.swift; sourceTree = "<group>"; };
-		E3B20CB528EE9166001923BF /* Artwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
+		E3B20CB728F07ECD001923BF /* allExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,7 +139,7 @@
 				E3935C7528E8ABB00018FE0F /* Keyy.swift */,
 				E3533CA128EB39BB0040EF11 /* Colors.swift */,
 				E32F89BB28EE8A9D00AEFF66 /* Location.swift */,
-				E3B20CB528EE9166001923BF /* Artwork.swift */,
+				E3B20CB728F07ECD001923BF /* allExtensions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -248,8 +248,8 @@
 				E3533CA228EB39BB0040EF11 /* Colors.swift in Sources */,
 				E38BF9D628DE0395000DB992 /* SceneDelegate.swift in Sources */,
 				E3935C7628E8ABB00018FE0F /* Keyy.swift in Sources */,
-				E3B20CB628EE9166001923BF /* Artwork.swift in Sources */,
 				E3533CA028EB35100040EF11 /* ResultViewController.swift in Sources */,
+				E3B20CB828F07ECD001923BF /* allExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

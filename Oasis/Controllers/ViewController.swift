@@ -10,47 +10,7 @@ import MapKit
 import CoreLocation
 import SwiftUI
 import _Concurrency
-
-extension CLPlacemark {
-    var stringValue : String {
-        get {
-            let address = "\(self.subThoroughfare ?? "") \(self.thoroughfare ?? ""), \(self.locality ?? "") \(self.subLocality ?? "") \(self.administrativeArea ?? ""), \(self.postalCode ?? "")"
-            return address
-        }
-    }
-}
-
-extension UITextField {
-    func isValid() -> Bool {
-        guard let text = self.text, !text.isEmpty
-        else {
-            return false
-        }
-        return true
-    }
-}
-
-// reverse the geocode location and gives you a CLPlacemark, containing all the informations needed to extract full postal address
-extension CLLocation {
-    func lookUpPlaceMark(_ handler: @escaping (CLPlacemark?) -> Void) {
-        let geocoder = CLGeocoder()
-        // Look up the location and pass it to the completion handler
-        geocoder.reverseGeocodeLocation(self) { (placemarks, error) in
-            if error == nil {
-                let firstLocation = placemarks?[0]
-                handler(firstLocation)
-            }
-            else { handler(nil) }
-        }
-    }
-    
-    // gives the full address directly
-    func lookUpLocationName(_ handler: @escaping (String?) -> Void) {
-            lookUpPlaceMark { (placemark) in
-                handler(placemark?.stringValue)
-            }
-        }
-}
+import Contacts
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var deleteButton1: UIButton!
@@ -182,10 +142,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) -> Int {
-        guard initialTextField.isValid()
+        guard textField.isValid()
         else {
-             print("Please input a valid address ❌")
-             return 0
+            print("Text \(textField.tag): Please input a valid address ❌")
+            return 0
             }
         return 1
     }
@@ -276,15 +236,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func updateLocationOnMap(to location: CLLocation, with title: String?) {
-            let point = MKPointAnnotation()
-            point.title = title
-            point.coordinate = location.coordinate
-            self.mapView.removeAnnotations(self.mapView.annotations)
-            self.mapView.addAnnotation(point)
-
-            let viewRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 200, longitudinalMeters: 200)
-            self.mapView.setRegion(viewRegion, animated: true)
-        }
+        let point = MKPointAnnotation()
+        point.title = title
+        point.coordinate = location.coordinate
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        self.mapView.addAnnotation(point)
+        let viewRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 200, longitudinalMeters: 200)
+        self.mapView.setRegion(viewRegion, animated: true)
+    }
     
     func updatePlaceMark(to address: String) {
         let geoCoder = CLGeocoder()
@@ -294,7 +253,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     let placemark = placemarks?.first,
                     let location = placemark.location
                 else { return }
-                self.updateLocationOnMap(to: location, with: placemark.stringValue)
+                self.updateLocationOnMap(to: location, with: placemark.formattedAddress)
             }
         }
     
@@ -308,17 +267,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
          */
         location.lookUpLocationName { (name) in
-            self.updateLocationOnMap(to: location, with: name)
+            self.updateLocationOnMap(to: location, with: name ?? "")
         }
     }
     
     @IBAction func currLocation(_ sender: Any) {
         guard let currentLocation = locationManager.location
         else { return }
-        
         currentLocation.lookUpLocationName {
             (name) in
-            self.updateLocationOnMap(to: currentLocation, with: name)
+            self.updateLocationOnMap(to: currentLocation, with: name ?? "")
         }
     }
     
@@ -327,9 +285,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func search(_ sender: Any) {
         let distStr = distPicker.titleForSegment(at: distPicker.selectedSegmentIndex)
         within = pickerDataDict[distStr!]!
-        print(within)
         Task{
-            var startLocation : CLLocation = await getSearchedLocation(str: startLocInput.text!)
+            let startLocation : CLLocation = await getSearchedLocation(str: startLocInput.text!)
             var searchTexts = Set<String>()
             for tag in 1...textFieldCount{
                 let thisTextField : UITextField = self.view.viewWithTag(tag)! as! UITextField
@@ -354,19 +311,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             ProgressHUD.showError("Please choose a valid start location!")
             return CLLocation()
         }
-        if self.textFieldDidChange(startLocInput) != 0 {  // TODO: get user's start location
+        if self.textFieldDidChange(startLocInput) != 0 {
             do{
                 startLocation = try await searchForLocation(to: startLocInput.text!, startFrom: startLocation)[0].location!
             }catch{
                 print(error)
             }
         }
-        print(startLocation)
+        print("Start from \(startLocation)")
         return startLocation
     }
     
     func startSearch(searchTexts: [String], within: Int, startLocation: CLLocation) async throws {
-        try await withThrowingTaskGroup(of: [MKPlacemark].self){ group in
+        do{
+            try await withThrowingTaskGroup(of: [MKPlacemark].self){ group in
             for text in searchTexts {
                 group.addTask {
                     try await self.searchForLocation(to: text, startFrom: startLocation) }
@@ -377,32 +335,32 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
             var finalSearchResult : [Keyy:[Int:[Int]]] = [:]  // dict of results from each textfield
             let n = toSearch.count
-            var maxCluster = 0
+            var maxCluster = 1
             var resultKeyy : [Keyy] = [Keyy]()
             if n>1 {
-                for i in 0...n-2{
+                for i in 0...n-2{//1
                     let resultsI = toSearch[i]
-                    for j in i+1...n-1{
+                    for j in i+1...n-1 {//2
                         let resultsJ = toSearch[j]
-                        for (iResultIdx, iPlace) in resultsI.enumerated() {
+                        for (iResultIdx, iPlace) in resultsI.enumerated() {//3
                             if let iCoord = iPlace.location{
-                                for (jResultIdx,jPlace) in resultsJ.enumerated() {
+                                let iKeyy = Keyy(queryIndex: i, resultIndex: iResultIdx)
+                                for (jResultIdx,jPlace) in resultsJ.enumerated() {//4
                                     if let jCoord = jPlace.location{
                                         let distanceInMeters = jCoord.distance(from: iCoord)
                                         if distanceInMeters <= Double(within) {
-                                            let iKeyy = Keyy(queryIndex: i, resultIndex: iResultIdx)
                                             (finalSearchResult[iKeyy, default: [:]][j, default: []]).append(jResultIdx)
-                                            let iCurrSize = finalSearchResult[iKeyy, default: [:]].count
-                                            if iCurrSize > maxCluster{
-                                                maxCluster = iCurrSize
-                                                resultKeyy = [iKeyy]
-                                            }
-                                            else if iCurrSize == maxCluster{
-                                                resultKeyy.append(iKeyy)
-                                            }
                                         }
                                     }
                                     else{ ProgressHUD.showFailed("Search failed for \(j+1)") }
+                                }
+                                let iCurrSize = finalSearchResult[iKeyy, default: [:]].count + 1
+                                if iCurrSize > maxCluster{
+                                    maxCluster = iCurrSize
+                                    resultKeyy = [iKeyy]
+                                }
+                                else if iCurrSize == maxCluster {
+                                    resultKeyy.append(iKeyy)
                                 }
                             }
                             else{ ProgressHUD.showFailed("Search failed for \(i+1)") }
@@ -418,8 +376,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 resultPage.startLocation = startLocation
                 resultPage.maxCluster = maxCluster
                 resultPage.finalSearchResult = finalSearchResult
-             self.present(resultPage, animated: true, completion: nil)
+                print(finalSearchResult, "\n")
+                self.present(resultPage, animated: true, completion: nil)
             }
+        }
+        } catch {
+            ProgressHUD.showFailed("Search failed, check your input! 🫢")
         }
     }
     
@@ -429,9 +391,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         searchRequest.naturalLanguageQuery = name
         let search = MKLocalSearch(request: searchRequest)
         var result = [MKPlacemark]()
-        let response = try await search.start()
-        var places = response.mapItems.map({$0.placemark})
-        places = Array(Set(places))
+        let responses = try await search.start()
+        var places = responses.mapItems.map({$0.placemark})
         places = places.sorted(by: { startFrom.distance(from: $0.location!) < startFrom.distance(from: $1.location!)})
         result.append(contentsOf: places)
         return result

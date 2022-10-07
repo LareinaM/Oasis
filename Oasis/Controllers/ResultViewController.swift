@@ -10,42 +10,8 @@ import UIKit
 import MapKit
 import CoreLocation
 import SwiftUI
+import Contacts
 
-protocol SecondViewControllerDelegate {
-    func secondVCWillDismiss(withTimestamp timestamp: TimeInterval)
-}
-
-class MyPointAnnotation : MKPointAnnotation {
-    var markerTintColor: UIColor?
-}
-
-extension String {
-    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-        return ceil(boundingBox.height)
-    }
-
-    func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-        return ceil(boundingBox.width)
-    }
-}
-
-extension NSAttributedString {
-    func height(withConstrainedWidth width: CGFloat) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
-        return ceil(boundingBox.height)
-    }
-
-    func width(withConstrainedHeight height: CGFloat) -> CGFloat {
-        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-        let boundingBox = boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
-        return ceil(boundingBox.width)
-    }
-}
 
 @IBDesignable class PaddingLabel: UILabel {
     @IBInspectable var topInset: CGFloat = 5.0
@@ -100,6 +66,8 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
     let resultFontSmall : UIFont = UIFont(name: "Pangolin-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14.0)
     let paragraphStyle = NSMutableParagraphStyle()
     let colorSwitch = [UIColor.MyTheme.purple2, UIColor.MyTheme.green1,UIColor.MyTheme.pink1,  UIColor.MyTheme.blue1, UIColor.MyTheme.orange, UIColor.MyTheme.red, UIColor.MyTheme.pink2, UIColor.MyTheme.green4, UIColor.MyTheme.blue2, UIColor.MyTheme.green3]
+    var attr : [NSAttributedString.Key:Any]!
+    var attrSmall : [NSAttributedString.Key:Any]!
     
     func setUpThings(){
         // set parameters
@@ -107,6 +75,8 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
         self.height = self.view.frame.height
         let halfOriginY = self.height/2 - 10
         paragraphStyle.lineBreakMode = .byTruncatingTail
+        self.attr = [NSAttributedString.Key.font : self.resultFont, NSAttributedString.Key.foregroundColor : UIColor.MyTheme.purple3]
+        self.attrSmall = [NSAttributedString.Key.font : self.resultFontSmall, NSAttributedString.Key.foregroundColor : UIColor.MyTheme.textColorDark]
         
         // set views
         let halfSizeOverlap = self.height/2 + 10
@@ -161,12 +131,12 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
         return label.frame.height
     }
     
-    
     func displayResult(){
+        // TODO: display
         if maxCluster == 0{
-            print("No results!")
+            ProgressHUD.showFailed("No Results!!")
         }
-        else if maxCluster < n-1 {
+        else if maxCluster < n {
             print("We cannot satisfy all requirements, but checkout...")
         }
         else{
@@ -175,8 +145,6 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
         if n > 1{
             var count = 0
             var prevHeight : CGFloat = 0.0
-            let attr = [NSAttributedString.Key.font : self.resultFont, NSAttributedString.Key.foregroundColor : UIColor.MyTheme.purple3]
-            let attrSmall = [NSAttributedString.Key.font : self.resultFontSmall, NSAttributedString.Key.foregroundColor : UIColor.MyTheme.textColorDark]
             for keyy in resultKeyy{
                 let currPlace = toSearch[keyy.queryIndex][keyy.resultIndex]
                 var currLines = 1
@@ -184,7 +152,7 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
                 let neighborDict = finalSearchResult[keyy, default: [:]]
                 // set text
                 let text = NSMutableAttributedString(string:"\(currPlace.name ?? "")", attributes: attr)
-                text.append(NSMutableAttributedString(string:", \(currPlace.stringValue)", attributes: attrSmall))
+                text.append(NSMutableAttributedString(string:", \(currPlace.formattedAddress ?? "")", attributes: attrSmall))
                 var locations : [Int:[Location]] = [idx : [Location(title: currPlace.name ?? "", latitude: (currPlace.location?.coordinate.latitude)!, longitude: (currPlace.location?.coordinate.longitude)!)]]
                 for (qIdx, rIdxLs) in neighborDict{
                     idx += 1
@@ -192,20 +160,24 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
                     for rIdx in rIdxLs{
                         let nextPlace = toSearch[qIdx][rIdx]
                         text.append(NSMutableAttributedString(string:"\n\(nextPlace.name ?? "")", attributes: attr))
-                        text.append(NSMutableAttributedString(string:", \(nextPlace.stringValue)", attributes: attrSmall))
+                        text.append(NSMutableAttributedString(string:", \(nextPlace.formattedAddress ?? "")", attributes: attrSmall))
                         currLines += 1
                         locations[idx, default: []].append(Location(title: nextPlace.name ?? "", latitude: (nextPlace.location?.coordinate.latitude)!, longitude: (nextPlace.location?.coordinate.longitude)!))
                     }
                 }
-                // set label
                 prevHeight += self.placeLabel(text: text, count: count, prevHeight: prevHeight, locations: locations)
                 count += 1
-                //print(text.mutableString, "\n")
             }
         }
-        else {
-            for place in toSearch[0]{
-                print(place.stringValue,"\n")
+        else if n==1 {
+            var count = 0
+            var prevHeight : CGFloat = 0.0
+            for currPlace in toSearch[0] {
+                let text = NSMutableAttributedString(string:"\(currPlace.name ?? "")", attributes: attr)
+                text.append(NSMutableAttributedString(string:", \(currPlace.formattedAddress ?? "")", attributes: attrSmall))
+                let locations : [Int:[Location]] = [0 : [Location(title: currPlace.name ?? "", latitude: (currPlace.location?.coordinate.latitude)!, longitude: (currPlace.location?.coordinate.longitude)!)]]
+                prevHeight += self.placeLabel(text: text, count: count, prevHeight: prevHeight, locations: locations)
+                count += 1
             }
         }
         currentAnnot.markerTintColor = UIColor.red
@@ -218,9 +190,9 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
         let label = gesture.view as! PaddingLabel
         var annotations = [MKAnnotation]()
         var zoomRect = MKMapRect.null
-        var coordSet = Set<[Double]>()
+        let coordSet = Set<[Double]>()
         for (idx, locationLs) in label.locations {
-            for (i, location) in locationLs.enumerated(){
+            for location in locationLs{
                 let annotation = MyPointAnnotation()
                 annotation.markerTintColor = self.colorSwitch[idx]
                 annotation.title = location.title
@@ -249,9 +221,9 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "myAnnotation") as? MKMarkerAnnotationView
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "myAnnotation") as? MyMarkerAnnotationView
         if annotationView == nil {
-            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "myAnnotation")
+            annotationView = MyMarkerAnnotationView(annotation: annotation, reuseIdentifier: "myAnnotation")
         }
         else {
             annotationView?.annotation = annotation
