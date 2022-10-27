@@ -6,14 +6,20 @@
 //
 
 import UIKit
+import FirebaseCore
+import Firebase
+import FirebaseAuth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        FirebaseApp.configure()
+        var ref: DatabaseReference!
+        ref = Database.database(url: "https://oasis-b045d-default-rtdb.asia-southeast1.firebasedatabase.app/").reference()
+        ref.child("users").child("/").setValue(["username": 123])
         return true
     }
 
