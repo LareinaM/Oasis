@@ -10,9 +10,12 @@
 		C56AC0B547E3F8672D319BD4 /* Pods_Oasis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C30E6F43CEF1D53F97B6EAA4 /* Pods_Oasis.framework */; };
 		E327FFDA28E04FB300B1E72C /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327FFD928E04FB300B1E72C /* ProgressHUD.swift */; };
 		E32F89BC28EE8A9D00AEFF66 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32F89BB28EE8A9D00AEFF66 /* Location.swift */; };
+		E33CCF17290C52DE00F09F76 /* ChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33CCF16290C52DE00F09F76 /* ChooseViewController.swift */; };
 		E3533CA028EB35100040EF11 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3533C9F28EB35100040EF11 /* ResultViewController.swift */; };
-		E3533CA228EB39BB0040EF11 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3533CA128EB39BB0040EF11 /* Colors.swift */; };
 		E37841E5290AE82E00A56042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E37841E4290AE82E00A56042 /* GoogleService-Info.plist */; };
+		E37841E9290AEF8500A56042 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37841E8290AEF8500A56042 /* LogInViewController.swift */; };
+		E38B5726290C174400E451A2 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B5725290C174400E451A2 /* RegisterViewController.swift */; };
+		E38B5728290C3BA900E451A2 /* sharedThings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B5727290C3BA900E451A2 /* sharedThings.swift */; };
 		E38BF9D428DE0395000DB992 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38BF9D328DE0395000DB992 /* AppDelegate.swift */; };
 		E38BF9D628DE0395000DB992 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38BF9D528DE0395000DB992 /* SceneDelegate.swift */; };
 		E38BF9D828DE0395000DB992 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38BF9D728DE0395000DB992 /* ViewController.swift */; };
@@ -31,9 +34,12 @@
 		C30E6F43CEF1D53F97B6EAA4 /* Pods_Oasis.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Oasis.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E327FFD928E04FB300B1E72C /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProgressHUD.swift; path = "../../../../Downloads/ProgressHUD-master/ProgressHUD/Sources/ProgressHUD.swift"; sourceTree = "<group>"; };
 		E32F89BB28EE8A9D00AEFF66 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		E33CCF16290C52DE00F09F76 /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
 		E3533C9F28EB35100040EF11 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
-		E3533CA128EB39BB0040EF11 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		E37841E4290AE82E00A56042 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E37841E8290AEF8500A56042 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		E38B5725290C174400E451A2 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		E38B5727290C3BA900E451A2 /* sharedThings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sharedThings.swift; sourceTree = "<group>"; };
 		E38BF9D028DE0395000DB992 /* Oasis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oasis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E38BF9D328DE0395000DB992 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E38BF9D528DE0395000DB992 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +88,9 @@
 			isa = PBXGroup;
 			children = (
 				E38BF9D728DE0395000DB992 /* ViewController.swift */,
+				E37841E8290AEF8500A56042 /* LogInViewController.swift */,
+				E38B5725290C174400E451A2 /* RegisterViewController.swift */,
+				E33CCF16290C52DE00F09F76 /* ChooseViewController.swift */,
 				E3533C9F28EB35100040EF11 /* ResultViewController.swift */,
 			);
 			path = Controllers;
@@ -144,8 +153,8 @@
 			isa = PBXGroup;
 			children = (
 				E3935C7528E8ABB00018FE0F /* Keyy.swift */,
-				E3533CA128EB39BB0040EF11 /* Colors.swift */,
 				E32F89BB28EE8A9D00AEFF66 /* Location.swift */,
+				E38B5727290C3BA900E451A2 /* sharedThings.swift */,
 				E3B20CB728F07ECD001923BF /* allExtensions.swift */,
 			);
 			path = Model;
@@ -268,14 +277,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				E38BF9D828DE0395000DB992 /* ViewController.swift in Sources */,
+				E38B5726290C174400E451A2 /* RegisterViewController.swift in Sources */,
 				E38BF9D428DE0395000DB992 /* AppDelegate.swift in Sources */,
 				E32F89BC28EE8A9D00AEFF66 /* Location.swift in Sources */,
 				E327FFDA28E04FB300B1E72C /* ProgressHUD.swift in Sources */,
-				E3533CA228EB39BB0040EF11 /* Colors.swift in Sources */,
+				E33CCF17290C52DE00F09F76 /* ChooseViewController.swift in Sources */,
 				E38BF9D628DE0395000DB992 /* SceneDelegate.swift in Sources */,
 				E3935C7628E8ABB00018FE0F /* Keyy.swift in Sources */,
 				E3533CA028EB35100040EF11 /* ResultViewController.swift in Sources */,
+				E37841E9290AEF8500A56042 /* LogInViewController.swift in Sources */,
 				E3B20CB828F07ECD001923BF /* allExtensions.swift in Sources */,
+				E38B5728290C3BA900E451A2 /* sharedThings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

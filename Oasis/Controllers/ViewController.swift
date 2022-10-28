@@ -29,7 +29,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     let maxTextFields = 10
     var textFieldSize = CGSize(width: 340, height: 50) // TODO: dynamic sizing
-    let userInputFont : UIFont = UIFont(name: "Pangolin-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18.0)
+    let userInputFont : UIFont = UIFont.myFonts.userInputFont
     let buttonSize : CGFloat = 55.0 // TODO: dynamic sizing
     let buttonOffset : CGFloat = 80.0 // distance from plusbutton to last textfield
     let offsetY : CGFloat = 16.0 // offset between textfields
@@ -105,7 +105,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         let twoButtonY = distPicker.frame.origin.y - offsetY * 2 - buttonSize
         self.setUpButton(button: locatemeButton, n: 0, x: offsetX, y: twoButtonY, buttonWidth: buttonSize, buttonHeight: buttonSize)
+        locatemeButton.layer.cornerRadius = 5.0
         self.setUpButton(button: searchButton, n: 0, x: self.width-offsetX-buttonSize, y: twoButtonY, buttonWidth: buttonSize, buttonHeight: buttonSize)
+        searchButton.layer.cornerRadius = 5.0
     }
     
     func setUpTextField(textField : UITextField, n : Int, currFont: UIFont, msg: String){
