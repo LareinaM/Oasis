@@ -15,9 +15,10 @@ class LogInViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        Helper().setUpButtonSimple(button: emailLoginButton, text: "Email")
-        Helper().setUpButtonSimple(button: googleLoginButton, text: "Google")
-        self.navigationController?.navigationBar.tintColor = UIColor.MyTheme.purple3
+        let helper = Helper()
+        helper.setUpButtonSimple(button: emailLoginButton, text: "Email", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor)
+        helper.setUpButtonSimple(button: googleLoginButton, text: "Google", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor)
+        helper.setNavigation(navigation: self.navigationController)
     }
     
     /*

@@ -16577,6 +16577,7 @@
 		E3218114EBC25A51B46C14B34E7A82B0 /* futex.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = futex.h; path = absl/synchronization/internal/futex.h; sourceTree = "<group>"; };
 		E32999A3311EB726E506E025F8EC953E /* ssl_stat.cc */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = ssl_stat.cc; path = src/ssl/ssl_stat.cc; sourceTree = "<group>"; };
 		E32D04F656B6DA39039F3F4E69ED410B /* server_secure_chttp2.cc */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = server_secure_chttp2.cc; path = src/core/ext/transport/chttp2/server/secure/server_secure_chttp2.cc; sourceTree = "<group>"; };
+		E33E105B290D229000136D57 /* EmailLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EmailLoginViewController.swift; path = ../Oasis/Controllers/EmailLoginViewController.swift; sourceTree = "<group>"; };
 		E3463A1DC29CBB70C9F7345A483C5B7F /* trace.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = trace.h; path = src/core/lib/debug/trace.h; sourceTree = "<group>"; };
 		E34C0089DE6992EBEC361414459E86FB /* server_callback.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = server_callback.h; path = include/grpcpp/impl/codegen/server_callback.h; sourceTree = "<group>"; };
 		E34F33037ECA50F0550515C9E6276500 /* FIndexedFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIndexedFilter.h; path = FirebaseDatabase/Sources/Core/View/Filter/FIndexedFilter.h; sourceTree = "<group>"; };
@@ -22386,6 +22387,7 @@
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
+				E33E105B290D229000136D57 /* EmailLoginViewController.swift */,
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D68CA58901FBF589D75F5E40F1EAF5BA /* Frameworks */,
 				05C8725562FCEDE0561D9EBFFF9BF02F /* Pods */,

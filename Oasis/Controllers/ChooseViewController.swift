@@ -8,11 +8,16 @@
 import UIKit
 
 class ChooseViewController: UIViewController {
-
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var registerButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let helper = Helper()
+        helper.setUpButtonSimple(button: loginButton, text: "Login", backgroundColor: UIColor.MyTheme.pink0, textcolor: .white)
+        helper.setUpButtonSimple(button: registerButton, text: "Register", backgroundColor: UIColor.MyTheme.green1, textcolor: .white)
     }
     
 
