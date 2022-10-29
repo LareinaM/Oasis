@@ -10,5 +10,6 @@ target 'Oasis' do
     pod 'Firebase/Auth'
     pod 'Firebase/Database'
     pod 'FirebaseFirestore'
+    pod 'GoogleSignIn'
 
 end

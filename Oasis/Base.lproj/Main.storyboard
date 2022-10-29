@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UhA-EQ-bAj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Xbx-DU-v6p">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -70,6 +70,15 @@
                                             </button>
                                         </subviews>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L4G-ZS-qEx">
+                                        <rect key="frame" x="187" y="106" width="58" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="user"/>
+                                        <connections>
+                                            <segue destination="Aip-HK-pAr" kind="show" id="ocL-6v-jDn"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.8980392157" green="0.89019607840000003" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="8LX-Hg-i7l"/>
@@ -143,7 +152,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1546" y="166"/>
+            <point key="canvasLocation" x="2473.8461538461538" y="165.63981042654027"/>
         </scene>
         <!--Result View Controller-->
         <scene sceneID="ZMQ-yX-3CC">
@@ -207,25 +216,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gNQ-fK-Lto" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2297" y="165"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="JTT-ag-be5">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UhA-EQ-bAj" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9ko-Mi-81k">
-                        <rect key="frame" x="0.0" y="47" width="390" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Aip-HK-pAr" kind="relationship" relationship="rootViewController" id="97x-1z-lc0"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="t3v-zL-WtD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1051" y="-591"/>
+            <point key="canvasLocation" x="3226.1538461538462" y="164.92890995260663"/>
         </scene>
         <!--Login-->
         <scene sceneID="q5v-IK-PD6">
@@ -293,7 +284,7 @@
                         <outlet property="emailTextField" destination="R3R-ec-ALk" id="EGJ-ZX-PrO"/>
                         <outlet property="loginButton" destination="WRG-8F-KCM" id="6zw-WK-dZh"/>
                         <outlet property="pwdTextField" destination="7kn-Bi-Gkn" id="Ivk-aU-7Mj"/>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="goToMain" id="y1U-gD-TN4"/>
+                        <segue destination="Xbx-DU-v6p" kind="show" identifier="goToMain" id="y1U-gD-TN4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S5T-BH-U7f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -365,28 +356,12 @@
                         <outlet property="emailTextField" destination="2Dz-TI-eoM" id="KZ2-VT-NbN"/>
                         <outlet property="pwdTextField" destination="j2Z-mY-iBK" id="Ncw-2m-yaQ"/>
                         <outlet property="registerButton" destination="bwi-Sx-gh6" id="Vta-Iw-YtB"/>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="goToMain" id="D2Y-Yb-JTv"/>
+                        <segue destination="Xbx-DU-v6p" kind="show" identifier="goToMain" id="D2Y-Yb-JTv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uCl-pi-Bin" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="657" y="165"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="aBn-Uj-gyr">
-            <objects>
-                <viewController id="Msa-EM-Lnt" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="c3O-19-Mto">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="puA-0I-fOc"/>
-                        <color key="backgroundColor" red="0.92549020049999997" green="0.92549020049999997" blue="0.92549020049999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="jA6-Gs-aUG"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Yxe-fu-O5u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="657" y="894"/>
         </scene>
         <!--Register-->
         <scene sceneID="WuN-2G-0cF">
@@ -426,7 +401,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" image="Google 1" title="" imagePadding="10"/>
                                 <connections>
-                                    <segue destination="Msa-EM-Lnt" kind="show" id="zGw-xi-G3U"/>
+                                    <action selector="googleSignInPressed:" destination="UeV-5C-3w9" eventType="touchUpInside" id="nQJ-wc-PYD"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -449,6 +424,7 @@
                     <connections>
                         <outlet property="emailRegisterButton" destination="Ik7-qZ-yNw" id="2gW-Iz-ay7"/>
                         <outlet property="googleRegisterButton" destination="uK5-0R-XRR" id="nG5-Jv-vvs"/>
+                        <segue destination="Xbx-DU-v6p" kind="show" identifier="goToMain" id="nII-CC-x6z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="af9-S8-evF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -518,22 +494,6 @@
             </objects>
             <point key="canvasLocation" x="-115.38461538461539" y="-591.46919431279616"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="GMV-2n-EyQ">
-            <objects>
-                <viewController id="yps-8I-87I" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="xew-d3-v0e">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="dsY-Wo-yA8"/>
-                        <color key="backgroundColor" red="0.92549020049999997" green="0.92549020049999997" blue="0.92549020049999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="irn-I8-zdd"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cXr-Dl-vtS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="806" y="-1320"/>
-        </scene>
         <!--Login-->
         <scene sceneID="9lD-61-SpA">
             <objects>
@@ -573,7 +533,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" image="Google 1" title="" imagePadding="10"/>
                                 <connections>
-                                    <segue destination="yps-8I-87I" kind="show" id="dzy-bx-Jad"/>
+                                    <action selector="googleSignInPressed:" destination="2p1-3f-r3Z" eventType="touchUpInside" id="rUB-ll-3uW"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -595,15 +555,35 @@
                     <connections>
                         <outlet property="emailLoginButton" destination="pCN-ql-V0M" id="7Wt-3s-dzY"/>
                         <outlet property="googleLoginButton" destination="FTW-oU-CHP" id="8hz-KY-vD2"/>
+                        <segue destination="Xbx-DU-v6p" kind="show" identifier="goToMain" id="lzV-SA-85P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SmZ-pD-pQ6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="806" y="-591"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="jqI-5B-pwk">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="Xbx-DU-v6p" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="hsE-ux-EQx"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="k4T-kP-eVU">
+                        <rect key="frame" x="0.0" y="47" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="owz-ct-hxv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iB9-9Y-QTK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1544.6153846153845" y="165.63981042654027"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="D2Y-Yb-JTv"/>
+        <segue reference="y1U-gD-TN4"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>

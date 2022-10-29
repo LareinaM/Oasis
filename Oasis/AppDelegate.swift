@@ -9,6 +9,7 @@ import UIKit
 import FirebaseCore
 import Firebase
 import FirebaseAuth
+import GoogleSignIn
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,10 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         var ref: DatabaseReference!
         ref = Database.database(url: "https://oasis-b045d-default-rtdb.asia-southeast1.firebasedatabase.app/").reference()
-        ref.child("users").child("/").setValue(["username": 123])
+        GIDSignIn.sharedInstance.restorePreviousSignIn()
         return true
     }
 
+    func application(_ application: UIApplication, open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any])
+      -> Bool {
+      return GIDSignIn.sharedInstance.handle(url)
+    }
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

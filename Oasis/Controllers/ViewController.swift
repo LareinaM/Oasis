@@ -105,9 +105,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         let twoButtonY = distPicker.frame.origin.y - offsetY * 2 - buttonSize
         self.setUpButton(button: locatemeButton, n: 0, x: offsetX, y: twoButtonY, buttonWidth: buttonSize, buttonHeight: buttonSize)
-        locatemeButton.layer.cornerRadius = 5.0
+        locatemeButton.layer.cornerRadius = 15.0
         self.setUpButton(button: searchButton, n: 0, x: self.width-offsetX-buttonSize, y: twoButtonY, buttonWidth: buttonSize, buttonHeight: buttonSize)
-        searchButton.layer.cornerRadius = 5.0
+        searchButton.layer.cornerRadius = 15.0
     }
     
     func setUpTextField(textField : UITextField, n : Int, currFont: UIFont, msg: String){
@@ -290,9 +290,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         Task{
             let startLocation : CLLocation = await getSearchedLocation(str: startLocInput.text!)
             var searchTexts = Set<String>()
+            var hasValue = false
             for tag in 1...textFieldCount{
                 let thisTextField : UITextField = self.view.viewWithTag(tag)! as! UITextField
                 if (self.textFieldDidChange(thisTextField) != 0){
+                    if !hasValue {hasValue = true}
                     let currText = thisTextField.text!
                     if !searchTexts.contains(currText.lowercased()){
                         searchTexts.insert(currText.lowercased())
@@ -302,6 +304,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         return
                     }
                 }
+            }
+            if !hasValue {
+                ProgressHUD.showError("At least input something")
+                return
             }
             try await self.startSearch(searchTexts: Array(searchTexts), within: within, startLocation: startLocation)
         }

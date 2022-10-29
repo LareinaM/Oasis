@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Firebase
+import GoogleSignIn
 
 class LogInViewController: UIViewController {
     @IBOutlet weak var emailLoginButton: UIButton!
@@ -19,8 +21,37 @@ class LogInViewController: UIViewController {
         helper.setUpButtonSimple(button: emailLoginButton, text: "Email", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor)
         helper.setUpButtonSimple(button: googleLoginButton, text: "Google", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor)
         helper.setNavigation(navigation: self.navigationController)
+        
     }
     
+    @IBAction func googleSignInPressed(_ sender: Any) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { [unowned self] user, error in
+            if let error = error {
+                print("Failed! Error = \(error)")
+                return
+              }
+            guard
+                let authentication = user?.authentication,
+                let idToken = authentication.idToken
+              else {
+                return
+              }
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                             accessToken: authentication.accessToken)
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error = error {
+                    print("Failed, error = \(error)")
+                }
+                else{
+                    print("Login success")
+                    self.performSegue(withIdentifier: "goToMain", sender: self)
+                }
+            }
+        }
+        
+    }
     /*
     // MARK: - Navigation
 
