@@ -21,7 +21,7 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Oasis" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="753"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SYY-03-Vkb">
@@ -70,15 +70,6 @@
                                             </button>
                                         </subviews>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L4G-ZS-qEx">
-                                        <rect key="frame" x="187" y="106" width="58" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="user"/>
-                                        <connections>
-                                            <segue destination="Aip-HK-pAr" kind="show" id="ocL-6v-jDn"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.8980392157" green="0.89019607840000003" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="8LX-Hg-i7l"/>
@@ -135,8 +126,27 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Gml-l0-QGC"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <navigationItem key="navigationItem" id="Gml-l0-QGC">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="jzI-bR-JGM">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="L4G-ZS-qEx">
+                                <rect key="frame" x="15.999999999999996" y="4.6666666666666679" width="49.666666666666657" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="A2k-jp-PN4"/>
+                                    <constraint firstAttribute="height" constant="35" id="uBp-xJ-zwj"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="person.crop.circle.fill" catalog="system">
+                                    <color key="baseForegroundColor" red="0.62745098040000002" green="0.60784313729999995" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="Aip-HK-pAr" kind="show" id="ocL-6v-jDn"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="aView" destination="HiY-zy-NMM" id="bBp-zd-eYA"/>
                         <outlet property="deleteButton1" destination="0kD-je-Nsz" id="ryN-qe-iOO"/>
@@ -144,10 +154,12 @@
                         <outlet property="initialTextField" destination="gOj-XO-TPL" id="6s1-mY-H0D"/>
                         <outlet property="locatemeButton" destination="cZl-LD-0wM" id="V9q-yp-O7a"/>
                         <outlet property="mapView" destination="SYY-03-Vkb" id="VCP-CO-A2c"/>
+                        <outlet property="myView" destination="8bC-Xf-vdC" id="RKI-pJ-dgj"/>
                         <outlet property="plusButton" destination="wuv-C9-dKa" id="Jsd-dO-8CK"/>
                         <outlet property="scrollView" destination="CEw-1F-513" id="9H9-Bg-ayn"/>
                         <outlet property="searchButton" destination="4yy-ki-rir" id="6IM-X2-mv2"/>
                         <outlet property="startLocInput" destination="TJ9-Xy-D5L" id="YFv-JJ-Zcn"/>
+                        <outlet property="userButton" destination="L4G-ZS-qEx" id="PW6-sX-sZP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -223,25 +235,27 @@
             <objects>
                 <viewController id="VRE-cW-1hw" customClass="EmailLoginViewController" customModule="Oasis" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ruq-H7-vBY">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="753"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bBa-S5-4mc">
-                                <rect key="frame" x="0.0" y="91" width="390" height="234"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="234"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bBa-S5-4mc" secondAttribute="height" multiplier="5:3" id="qCY-Rr-yhd"/>
                                 </constraints>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R3R-ec-ALk">
-                                <rect key="frame" x="25" y="330" width="340" height="45"/>
+                                <rect key="frame" x="25" y="239" width="340" height="45"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="cCy-8m-5qU"/>
                                 </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7kn-Bi-Gkn">
-                                <rect key="frame" x="25" y="395" width="340" height="45"/>
+                                <rect key="frame" x="25" y="304" width="340" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="QA4-3U-frP"/>
                                 </constraints>
@@ -249,7 +263,7 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WRG-8F-KCM">
-                                <rect key="frame" x="25" y="460" width="340" height="45"/>
+                                <rect key="frame" x="25" y="369" width="340" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="oRE-ja-Jpd"/>
                                 </constraints>
@@ -296,17 +310,17 @@
             <objects>
                 <viewController id="Ud4-0H-Y3r" customClass="EmailRegViewController" customModule="Oasis" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mkX-WW-Pfp">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="753"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cpD-rG-BoK">
-                                <rect key="frame" x="0.0" y="91" width="390" height="234"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="234"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="cpD-rG-BoK" secondAttribute="height" multiplier="5:3" id="WdT-ft-jOW"/>
                                 </constraints>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Dz-TI-eoM">
-                                <rect key="frame" x="25" y="330" width="340" height="45"/>
+                                <rect key="frame" x="25" y="239" width="340" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="tJD-Mp-m2f"/>
                                 </constraints>
@@ -314,7 +328,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j2Z-mY-iBK">
-                                <rect key="frame" x="25" y="395" width="340" height="45"/>
+                                <rect key="frame" x="25" y="304" width="340" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="FM3-pl-kRm"/>
                                 </constraints>
@@ -322,7 +336,7 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bwi-Sx-gh6">
-                                <rect key="frame" x="25" y="460" width="340" height="45"/>
+                                <rect key="frame" x="25" y="369" width="340" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="VoV-6E-0gU"/>
                                 </constraints>
@@ -368,18 +382,18 @@
             <objects>
                 <viewController id="UeV-5C-3w9" customClass="RegisterViewController" customModule="Oasis" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GGs-TX-9Ng">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="753"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="goY-5Q-CLW" userLabel="positionView">
-                                <rect key="frame" x="0.0" y="91" width="390" height="240"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="240"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="goY-5Q-CLW" secondAttribute="height" multiplier="13:8" id="Gdh-Ww-0p7"/>
                                     <constraint firstAttribute="width" secondItem="goY-5Q-CLW" secondAttribute="height" multiplier="13:8" id="fX8-mM-by9"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ik7-qZ-yNw">
-                                <rect key="frame" x="25" y="336" width="340" height="48"/>
+                                <rect key="frame" x="25" y="245" width="340" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="myn-yr-AKj"/>
                                 </constraints>
@@ -393,7 +407,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uK5-0R-XRR">
-                                <rect key="frame" x="25" y="424" width="340" height="48"/>
+                                <rect key="frame" x="25" y="333" width="340" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="2qq-Va-DUh"/>
                                 </constraints>
@@ -436,11 +450,11 @@
             <objects>
                 <viewController id="Aip-HK-pAr" customClass="ChooseViewController" customModule="Oasis" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QVM-RT-33N">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="753"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BnX-fb-ybJ">
-                                <rect key="frame" x="30" y="499" width="330" height="60"/>
+                                <rect key="frame" x="30" y="408" width="330" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="XXR-O7-uyJ"/>
                                 </constraints>
@@ -452,7 +466,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2MF-Ij-tXK">
-                                <rect key="frame" x="30" y="619" width="330" height="60"/>
+                                <rect key="frame" x="30" y="528" width="330" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="iMU-j1-nKu"/>
                                 </constraints>
@@ -464,7 +478,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dDm-Vo-j5P" userLabel="positionView">
-                                <rect key="frame" x="0.0" y="91" width="390" height="403"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="403"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="dDm-Vo-j5P" secondAttribute="height" multiplier="30:31" id="rVi-XM-YZ9"/>
                                 </constraints>
@@ -499,17 +513,17 @@
             <objects>
                 <viewController id="2p1-3f-r3Z" customClass="LogInViewController" customModule="Oasis" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IrT-9w-9Lu">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="753"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ech-8g-6dO" userLabel="positionView">
-                                <rect key="frame" x="0.0" y="91" width="390" height="240"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="240"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ech-8g-6dO" secondAttribute="height" multiplier="13:8" id="12D-RV-rhi"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pCN-ql-V0M">
-                                <rect key="frame" x="25" y="336" width="340" height="48"/>
+                                <rect key="frame" x="25" y="245" width="340" height="48"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="Zkx-cw-TtP"/>
@@ -524,7 +538,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FTW-oU-CHP">
-                                <rect key="frame" x="25" y="424" width="340" height="48"/>
+                                <rect key="frame" x="25" y="333" width="340" height="48"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="taL-91-1DP"/>
@@ -592,6 +606,7 @@
         <image name="envelope.fill" catalog="system" width="128" height="93"/>
         <image name="left" width="16" height="16"/>
         <image name="paperplane.fill" catalog="system" width="128" height="119"/>
+        <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="trash.fill" catalog="system" width="119" height="128"/>
         <systemColor name="systemBackgroundColor">

@@ -16,8 +16,8 @@ class ChooseViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         let helper = Helper()
-        helper.setUpButtonSimple(button: loginButton, text: "Login", backgroundColor: UIColor.MyTheme.pink0, textcolor: .white)
-        helper.setUpButtonSimple(button: registerButton, text: "Register", backgroundColor: UIColor.MyTheme.green1, textcolor: .white)
+        helper.setUpButtonSimple(button: loginButton, text: "Login", backgroundColor: UIColor.MyTheme.pink0, textcolor: .white, cornerRadius: 10.0)
+        helper.setUpButtonSimple(button: registerButton, text: "Register", backgroundColor: UIColor.MyTheme.green1, textcolor: .white, cornerRadius: 10.0)
     }
     
 

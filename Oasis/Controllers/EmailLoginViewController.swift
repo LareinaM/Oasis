@@ -19,8 +19,11 @@ class EmailLoginViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         let helper = Helper()
-        helper.setUpButtonSimple(button: loginButton, text: "Login", backgroundColor: UIColor.MyTheme.purple2, textcolor: .white)
+        helper.setUpButtonSimple(button: loginButton, text: "Login", backgroundColor: UIColor.MyTheme.purple2, textcolor: .white, cornerRadius: 10.0)
         helper.setNavigation(navigation: self.navigationController)
+        
+        //emailTextField.color = .white
+        //pwdTextField.backgroundColor = .white
     }
     
     @IBAction func loginPressed(_ sender: Any) {

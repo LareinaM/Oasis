@@ -18,8 +18,8 @@ class RegisterViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         let helper = Helper()
-        helper.setUpButtonSimple(button: emailRegisterButton, text: "Email", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor)
-        helper.setUpButtonSimple(button: googleRegisterButton, text: "Google", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor)
+        helper.setUpButtonSimple(button: emailRegisterButton, text: "Email", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor, cornerRadius: 10.0)
+        helper.setUpButtonSimple(button: googleRegisterButton, text: "Google", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor, cornerRadius: 10.0)
         helper.setNavigation(navigation: self.navigationController)
     }
     

@@ -13,11 +13,13 @@ import _Concurrency
 import Contacts
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
+    @IBOutlet var myView: UIView!
     @IBOutlet weak var deleteButton1: UIButton!
     @IBOutlet weak var initialTextField: UITextField!
     @IBOutlet weak var startLocInput: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var aView: UIView!
+    @IBOutlet weak var userButton: UIButton!
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var distPicker: UISegmentedControl!
@@ -65,10 +67,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func setUpThings(){
+        let helper = Helper()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         centeredParagraphStyle.alignment = .center
         
+        helper.setNavigation(navigation: self.navigationController)
         // set parameters
         self.width = self.view.frame.width
         self.height = self.view.frame.height
@@ -86,7 +90,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.scrollView.contentSize = CGSizeMake(self.width, halfSizeOverlap+3)
         self.aView.frame = CGRect(x: 0, y: 0, width: self.width, height: halfSizeOverlap)
         self.mapView.frame = CGRect(x: 0, y: 0, width: self.width, height: halfSizeOverlap)
-        print(self.scrollView.contentSize, self.view.bounds.size)
         
         // set textfields
         self.setUpTextField(textField: initialTextField, n: 1, currFont: userInputFont, msg: "Search for a location!")
@@ -103,11 +106,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         self.setUpPicker()
         
+        // set buttons
         let twoButtonY = distPicker.frame.origin.y - offsetY * 2 - buttonSize
         self.setUpButton(button: locatemeButton, n: 0, x: offsetX, y: twoButtonY, buttonWidth: buttonSize, buttonHeight: buttonSize)
         locatemeButton.layer.cornerRadius = 15.0
         self.setUpButton(button: searchButton, n: 0, x: self.width-offsetX-buttonSize, y: twoButtonY, buttonWidth: buttonSize, buttonHeight: buttonSize)
         searchButton.layer.cornerRadius = 15.0
+        helper.setUpButtonSimple(button: userButton, text: "", backgroundColor: .white, textcolor: .white, cornerRadius: 7.0)
     }
     
     func setUpTextField(textField : UITextField, n : Int, currFont: UIFont, msg: String){
@@ -326,7 +331,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 print(error)
             }
         }
-        print("Start from \(startLocation)")
+        print("Start from \(startLocation.description)")
         return startLocation
     }
     
@@ -384,7 +389,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 resultPage.startLocation = startLocation
                 resultPage.maxCluster = maxCluster
                 resultPage.finalSearchResult = finalSearchResult
-                print(finalSearchResult, "\n")
+                print("search result:",finalSearchResult, "\n")
                 self.present(resultPage, animated: true, completion: nil)
             }
         }

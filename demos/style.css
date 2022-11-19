@@ -1,0 +1,36 @@
+.iphone-img{
+    width: 65%;
+}
+h1{
+    font-family: 'Fugaz One', cursive;
+    font-size: 3.6rem;
+    line-height: 1.5;
+}
+.container-fluid{
+    padding: 3% 15%;
+}
+.navbar-brand{
+    padding-left: 1%;
+}
+#title{
+    background-color: #5C53DF;
+    color: white;
+}
+.navbar{
+    padding: 0 0 4.5rem;
+    font-family: 'Share Tech Mono', monospace;
+}
+.navbar-brand{
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+.nav-item{
+    padding: 0 18px 0 18px;
+}
+.nav-link{
+    font-size: 1.2rem;
+}
+
+.download-btn{
+    margin-top: 5%;
+}

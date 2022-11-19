@@ -18,7 +18,7 @@ class EmailRegViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         let helper = Helper()
-        helper.setUpButtonSimple(button: registerButton, text: "Register", backgroundColor: UIColor.MyTheme.purple2, textcolor: .white)
+        helper.setUpButtonSimple(button: registerButton, text: "Register", backgroundColor: UIColor.MyTheme.purple2, textcolor: .white, cornerRadius: 10.0)
         helper.setNavigation(navigation: self.navigationController)
     }
     

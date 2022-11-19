@@ -18,8 +18,8 @@ class LogInViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         let helper = Helper()
-        helper.setUpButtonSimple(button: emailLoginButton, text: "Email", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor)
-        helper.setUpButtonSimple(button: googleLoginButton, text: "Google", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor)
+        helper.setUpButtonSimple(button: emailLoginButton, text: "Email", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor, cornerRadius: 10.0)
+        helper.setUpButtonSimple(button: googleLoginButton, text: "Google", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor, cornerRadius: 10.0)
         helper.setNavigation(navigation: self.navigationController)
         
     }

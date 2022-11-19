@@ -41,9 +41,9 @@ extension UIFont{
 }
 
 class Helper{
-    func setUpButtonSimple(button: UIButton, text: String, backgroundColor: UIColor, textcolor: UIColor){
+    func setUpButtonSimple(button: UIButton, text: String, backgroundColor: UIColor, textcolor: UIColor, cornerRadius: CGFloat){
         button.titleLabel?.font = UIFont.myFonts.userInputFont
-        button.layer.cornerRadius = 10.0
+        button.layer.cornerRadius = cornerRadius
         button.tintColor = .clear
         let attr = [NSAttributedString.Key.font : UIFont.myFonts.userInputFont, NSAttributedString.Key.foregroundColor : textcolor]
         let text = NSMutableAttributedString(string:"\(text)", attributes: attr)
