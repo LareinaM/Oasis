@@ -93,6 +93,11 @@
                                     <action selector="currLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LZm-DP-ujn"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PYm-Zz-iK2">
+                                <rect key="frame" x="0.0" y="422" width="390" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.89803921568627454" green="0.8901960784313725" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </view>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="📍Current Location" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TJ9-Xy-D5L">
                                 <rect key="frame" x="25" y="397" width="340" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -128,7 +133,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Gml-l0-QGC">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="jzI-bR-JGM">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="L4G-ZS-qEx">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="L4G-ZS-qEx">
                                 <rect key="frame" x="15.999999999999996" y="4.6666666666666679" width="49.666666666666657" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -156,6 +161,7 @@
                         <outlet property="mapView" destination="SYY-03-Vkb" id="VCP-CO-A2c"/>
                         <outlet property="myView" destination="8bC-Xf-vdC" id="RKI-pJ-dgj"/>
                         <outlet property="plusButton" destination="wuv-C9-dKa" id="Jsd-dO-8CK"/>
+                        <outlet property="pureView" destination="PYm-Zz-iK2" id="OvD-DR-AEb"/>
                         <outlet property="scrollView" destination="CEw-1F-513" id="9H9-Bg-ayn"/>
                         <outlet property="searchButton" destination="4yy-ki-rir" id="6IM-X2-mv2"/>
                         <outlet property="startLocInput" destination="TJ9-Xy-D5L" id="YFv-JJ-Zcn"/>
@@ -164,7 +170,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2473.8461538461538" y="165.63981042654027"/>
+            <point key="canvasLocation" x="2473.8461538461538" y="164.92890995260663"/>
         </scene>
         <!--Result View Controller-->
         <scene sceneID="ZMQ-yX-3CC">

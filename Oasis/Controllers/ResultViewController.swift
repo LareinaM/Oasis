@@ -213,6 +213,8 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
                 }
             }
         }
+        let startPoint = MKMapPoint(startLocation.coordinate)
+        zoomRect = zoomRect.union(MKMapRect(x: startPoint.x, y: startPoint.y, width: 0, height: 0))
         annotations.append(currentAnnot)
         let allAnnotations = self.mapView.annotations
         self.mapView.removeAnnotations(allAnnotations)

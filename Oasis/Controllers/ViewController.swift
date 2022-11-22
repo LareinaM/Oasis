@@ -12,7 +12,7 @@ import SwiftUI
 import _Concurrency
 import Contacts
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDelegate {
     @IBOutlet var myView: UIView!
     @IBOutlet weak var deleteButton1: UIButton!
     @IBOutlet weak var initialTextField: UITextField!
@@ -21,6 +21,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var aView: UIView!
     @IBOutlet weak var userButton: UIButton!
     @IBOutlet weak var plusButton: UIButton!
+    @IBOutlet weak var pureView: UIView!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var distPicker: UISegmentedControl!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -76,9 +77,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // set parameters
         self.width = self.view.frame.width
         self.height = self.view.frame.height
-        let aViewOriginY = self.height/2 - 10
+        let scrollViewOriginY = self.height/2 - 10
         offsetX = (self.width - textFieldSize.width) / 2
-        offsetYFromAbove = self.height / 2 + textFieldSize.height / 2 + offsetY - aViewOriginY
+        offsetYFromAbove = self.height / 2 + textFieldSize.height / 2 + offsetY - scrollViewOriginY
         deleteButtonX = offsetX + textFieldSize.width - textFieldSize.height
         
         // set views
@@ -86,7 +87,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.scrollView.isScrollEnabled = true
         self.scrollView.superview!.isUserInteractionEnabled = true
         self.scrollView.layer.cornerRadius = 10
-        self.scrollView.frame = CGRect(x: 0, y: aViewOriginY, width: self.width, height: halfSizeOverlap)
+        self.scrollView.frame = CGRect(x: 0, y: scrollViewOriginY, width: self.width, height: halfSizeOverlap)
         self.scrollView.contentSize = CGSizeMake(self.width, halfSizeOverlap+3)
         self.aView.frame = CGRect(x: 0, y: 0, width: self.width, height: halfSizeOverlap)
         self.mapView.frame = CGRect(x: 0, y: 0, width: self.width, height: halfSizeOverlap)
@@ -97,6 +98,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         initialTextField.frame.origin.y = offsetYFromAbove
         self.setUpTextField(textField: startLocInput, n: 21, currFont: userInputFont, msg: "📍Current Location")
         startLocInput.frame.origin.y = self.height / 2 - textFieldSize.height / 2
+        
+        pureView.frame = CGRect(x: 0, y: self.height / 2, width: self.width, height: textFieldSize.height / 2 + offsetY - 5)
         
         // set buttons
         self.setUpButton(button: deleteButton1, n: 11, x: deleteButtonX, y: offsetYFromAbove, buttonWidth: textFieldSize.height, buttonHeight: textFieldSize.height)
@@ -131,12 +134,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 NSAttributedString.Key.foregroundColor: UIColor.lightGray,
             ])
         textField.addTarget(self,action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
+        if n <= 20{
+            textField.delegate = self
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
         setUpThings()
+    }
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     //MARK: - Add/Delete textfields
@@ -194,11 +205,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         if textFieldCount < maxTextFields {
             let y = CGFloat(textFieldCount) * (textFieldSize.height + offsetY) + offsetYFromAbove
             
-            let currHeight = self.aView.frame.height
-            if y + textFieldSize.height >= currHeight || y + textFieldSize.height+buttonOffset+buttonSize >= currHeight {
+            let currHeight = scrollView.contentSize.height
+            if y + textFieldSize.height >= currHeight || y + textFieldSize.height+buttonOffset+buttonSize >= currHeight {//
                 let newHeight = currHeight + offsetY + textFieldSize.height + 10
                 self.aView.frame = CGRect(x: self.aView.frame.origin.x, y: self.aView.frame.origin.y, width: self.aView.frame.width, height: newHeight)
                 self.scrollView.contentSize = CGSizeMake(self.width, newHeight + 10)
+                print("scrollview height changed to", newHeight)
             }
             let textField = UITextField(frame: CGRect(origin: CGPoint(x: offsetX, y: y), size: textFieldSize))
             self.setUpTextField(textField: textField, n: textFieldCount+1, currFont: userInputFont, msg: "Search for another location!")
@@ -219,6 +231,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         else {
             ProgressHUD.showFailed("😱 It is enough for now...")
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        let scrollViewCurrPosY = scrollView.frame.origin.y
+        if scrollViewCurrPosY == scrollViewCurrPosY{
+            UIView.animate(withDuration: 0.5){
+                self.scrollView.frame.origin.y -= 300
+                self.view.bringSubviewToFront(self.scrollView)
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let scrollViewCurrPosY = scrollView.frame.origin.y
+        UIView.animate(withDuration: 0.5){
+            self.scrollView.frame.origin.y += 300
+            self.view.insertSubview(self.scrollView, aboveSubview: self.mapView)
+            self.view.layoutIfNeeded()
         }
     }
 
