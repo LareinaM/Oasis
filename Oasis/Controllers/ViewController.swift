@@ -45,6 +45,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     var within : Int = 500
     var width : CGFloat!
     var height : CGFloat!
+    var activeTextField = UITextField()
+    var tap : UITapGestureRecognizer!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        scrollView.addGestureRecognizer(tap)
+        aView.addGestureRecognizer(tap)
+        
+        setUpThings()
+    }
+    
+    @objc func dismissKeyboard() {
+        print("keyboard dismissed")
+        self.activeTextField.endEditing(true)
+    }
     
     func setUpButton(button: UIButton, n: Int, x: CGFloat,y : CGFloat, buttonWidth: CGFloat, buttonHeight: CGFloat){
         button.contentVerticalAlignment = .fill
@@ -60,11 +77,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         y = y - offsetY - textFieldSize.height / 2
         distPicker.frame.origin.y = y
         distPicker.frame.size.width = textFieldSize.width
-        distPicker.selectedSegmentTintColor = UIColor.MyTheme.purple2
+        distPicker.selectedSegmentTintColor = UIColor.MyTheme.mainpurple
         distPicker.tintColor = UIColor.white
         distPicker.backgroundColor = UIColor.white
         distPicker.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
-        distPicker.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.MyTheme.purple3], for: .normal)
+        distPicker.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.MyTheme.verypurple], for: .normal)
     }
     
     func setUpThings(){
@@ -134,20 +151,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                 NSAttributedString.Key.foregroundColor: UIColor.lightGray,
             ])
         textField.addTarget(self,action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
-        if n <= 20{
-            textField.delegate = self
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
-        setUpThings()
-    }
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
+        textField.delegate = self
     }
     
     //MARK: - Add/Delete textfields
@@ -221,7 +225,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
             newButton.setImage(UIImage(systemName: "trash.fill"), for: .normal)
             newButton.tag = textFieldCount+11
             newButton.addTarget(self, action: #selector(deleteInputField), for: .touchUpInside)
-            newButton.tintColor = UIColor.MyTheme.purple2
+            newButton.tintColor = UIColor.MyTheme.mainpurple
             self.aView.addSubview(newButton)
             
             // adjust plus button location
@@ -234,9 +238,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         }
     }
     
+    //MARK: - Tap gestures
+    /***************************************************************/
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         let scrollViewCurrPosY = scrollView.frame.origin.y
-        if scrollViewCurrPosY == scrollViewCurrPosY{
+        self.activeTextField = textField
+        if scrollViewCurrPosY == scrollViewCurrPosY && textField.tag <= 20{
             UIView.animate(withDuration: 0.5){
                 self.scrollView.frame.origin.y -= 300
                 self.view.bringSubviewToFront(self.scrollView)
@@ -246,11 +254,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let scrollViewCurrPosY = scrollView.frame.origin.y
-        UIView.animate(withDuration: 0.5){
-            self.scrollView.frame.origin.y += 300
-            self.view.insertSubview(self.scrollView, aboveSubview: self.mapView)
-            self.view.layoutIfNeeded()
+        self.activeTextField = UITextField()
+        if textField.tag <= 20{
+            UIView.animate(withDuration: 0.5){
+                self.scrollView.frame.origin.y += 300
+                self.view.insertSubview(self.scrollView, aboveSubview: self.mapView)
+                self.view.layoutIfNeeded()
+            }
         }
     }
 

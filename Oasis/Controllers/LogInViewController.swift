@@ -22,6 +22,10 @@ class LogInViewController: UIViewController {
         helper.setUpButtonSimple(button: googleLoginButton, text: "Google", backgroundColor: .white, textcolor: UIColor.MyTheme.textColor, cornerRadius: 10.0)
         helper.setNavigation(navigation: self.navigationController)
         
+        let gradientLayer = CAGradientLayer.myGradients.lightdirtyfog
+        gradientLayer.frame = self.view.bounds
+        self.view.layer.insertSublayer(gradientLayer, at: 0)
+        
     }
     
     @IBAction func googleSignInPressed(_ sender: Any) {

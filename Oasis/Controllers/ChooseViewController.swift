@@ -8,6 +8,7 @@
 import UIKit
 
 class ChooseViewController: UIViewController {
+    @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
     
@@ -16,8 +17,12 @@ class ChooseViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         let helper = Helper()
-        helper.setUpButtonSimple(button: loginButton, text: "Login", backgroundColor: UIColor.MyTheme.pink0, textcolor: .white, cornerRadius: 10.0)
-        helper.setUpButtonSimple(button: registerButton, text: "Register", backgroundColor: UIColor.MyTheme.green1, textcolor: .white, cornerRadius: 10.0)
+        helper.setUpButtonSimple(button: loginButton, text: "Login", backgroundColor: UIColor.MyTheme.orangepink, textcolor: .white, cornerRadius: 10.0)
+        helper.setUpButtonSimple(button: registerButton, text: "Register", backgroundColor: UIColor.MyTheme.bluegreen, textcolor: .white, cornerRadius: 10.0)
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.view.bounds
+        gradientLayer.colors = [UIColor.MyTheme.mainpurple, UIColor.blue]
+        self.view.layer.insertSublayer(gradientLayer, at: 0)
     }
     
 

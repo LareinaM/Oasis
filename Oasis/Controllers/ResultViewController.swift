@@ -65,7 +65,7 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
     let resultFont : UIFont = UIFont(name: "Pangolin-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18.0)
     let resultFontSmall : UIFont = UIFont(name: "Pangolin-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14.0)
     let paragraphStyle = NSMutableParagraphStyle()
-    let colorSwitch = [UIColor.MyTheme.purple2, UIColor.MyTheme.green1,UIColor.MyTheme.pink1,  UIColor.MyTheme.blue1, UIColor.MyTheme.orange, UIColor.MyTheme.red, UIColor.MyTheme.pink2, UIColor.MyTheme.green4, UIColor.MyTheme.blue2, UIColor.MyTheme.green3]
+    let colorSwitch = [UIColor.MyTheme.mainpurple, UIColor.MyTheme.bluegreen,UIColor.MyTheme.verypink,  UIColor.MyTheme.darkblue, UIColor.MyTheme.orange, UIColor.MyTheme.red, UIColor.MyTheme.lightpink, UIColor.MyTheme.green4, UIColor.MyTheme.vividblue, UIColor.MyTheme.green3]
     var attr : [NSAttributedString.Key:Any]!
     var attrSmall : [NSAttributedString.Key:Any]!
     
@@ -75,7 +75,7 @@ class ResultViewController : UIViewController, MKMapViewDelegate{
         self.height = self.view.frame.height
         let halfOriginY = self.height/2 - 10
         paragraphStyle.lineBreakMode = .byTruncatingTail
-        self.attr = [NSAttributedString.Key.font : self.resultFont, NSAttributedString.Key.foregroundColor : UIColor.MyTheme.purple3]
+        self.attr = [NSAttributedString.Key.font : self.resultFont, NSAttributedString.Key.foregroundColor : UIColor.MyTheme.verypurple]
         self.attrSmall = [NSAttributedString.Key.font : self.resultFontSmall, NSAttributedString.Key.foregroundColor : UIColor.MyTheme.textColorDark]
         
         // set views
